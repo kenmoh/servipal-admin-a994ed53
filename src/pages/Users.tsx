@@ -10,10 +10,29 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Filter, Download, UserPlus } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from '@/components/ui/sheet';
+import { useState } from 'react';
+import StatusBadge from '@/components/common/StatusBadge';
+
+type UserType = 'customer' | 'vendor' | 'dispatch_company' | 'rider';
+type UserStatus = 'active' | 'pending' | 'suspended';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  type: UserType;
+  registrationDate: string;
+  status: UserStatus;
+}
 
 const Users = () => {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [openSheet, setOpenSheet] = useState(false);
+  
   // Mock user data
-  const users = [
+  const users: User[] = [
     {
       id: 'USR-001',
       name: 'John Doe',
@@ -77,7 +96,12 @@ const Users = () => {
       registrationDate: '2023-07-20',
       status: 'pending',
     },
-  ] as const;
+  ];
+
+  const viewUserDetails = (user: User) => {
+    setSelectedUser(user);
+    setOpenSheet(true);
+  };
 
   return (
     <Layout title="User Management">
@@ -105,9 +129,94 @@ const Users = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <UserTable users={users} />
+          <UserTable users={users} onViewUser={viewUserDetails} />
         </CardContent>
       </Card>
+
+      <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+        <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>User Details</SheetTitle>
+            <SheetDescription>{selectedUser?.id} - {selectedUser?.type}</SheetDescription>
+          </SheetHeader>
+          {selectedUser && (
+            <div className="mt-6 space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-gray-500">Basic Information</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm font-medium">Name</p>
+                    <p className="text-sm text-gray-500">{selectedUser.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Status</p>
+                    <StatusBadge status={selectedUser.status} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Email</p>
+                    <p className="text-sm text-gray-500">{selectedUser.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Phone</p>
+                    <p className="text-sm text-gray-500">{selectedUser.phone}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Registration Date</p>
+                    <p className="text-sm text-gray-500">{selectedUser.registrationDate}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">User Type</p>
+                    <p className="text-sm text-gray-500 capitalize">
+                      {selectedUser.type.replace('_', ' ')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-gray-500">Actions</h3>
+                <div className="flex flex-col gap-2">
+                  {selectedUser.status === 'active' && (
+                    <Button variant="destructive" className="justify-start">
+                      <span>Suspend User</span>
+                    </Button>
+                  )}
+                  {selectedUser.status === 'suspended' && (
+                    <Button variant="default" className="justify-start">
+                      <span>Activate User</span>
+                    </Button>
+                  )}
+                  {selectedUser.status === 'pending' && (
+                    <>
+                      <Button variant="default" className="justify-start">
+                        <span>Approve User</span>
+                      </Button>
+                      <Button variant="destructive" className="justify-start">
+                        <span>Reject User</span>
+                      </Button>
+                    </>
+                  )}
+                  <Button variant="outline" className="justify-start">
+                    <span>Edit User</span>
+                  </Button>
+                  <Button variant="outline" className="justify-start">
+                    <span>View Orders</span>
+                  </Button>
+                  <Button variant="outline" className="justify-start">
+                    <span>View Wallet</span>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="pt-4 flex justify-end">
+                <SheetClose asChild>
+                  <Button variant="outline">Close</Button>
+                </SheetClose>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
     </Layout>
   );
 };

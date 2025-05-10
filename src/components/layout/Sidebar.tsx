@@ -3,19 +3,20 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import {
-  BarChart2,
-  Calendar,
-  CreditCard,
-  FileText,
-  Gavel,
   Home,
-  LogIn,
-  MessageSquare,
-  Package,
-  Settings,
   Users,
+  Package,
+  Wallet,
+  Calendar,
+  Search,
+  Settings,
   Menu,
-  X
+  X,
+  MessageSquare,
+  FileText,
+  User,
+  BarChart,
+  FileKey
 } from 'lucide-react';
 
 type NavItemProps = {
@@ -23,10 +24,11 @@ type NavItemProps = {
   icon: React.ElementType;
   label: string;
   isActive: boolean;
+  isCollapsed: boolean;
   onClick?: () => void;
 };
 
-const NavItem = ({ to, icon: Icon, label, isActive, onClick }: NavItemProps) => {
+const NavItem = ({ to, icon: Icon, label, isActive, isCollapsed, onClick }: NavItemProps) => {
   return (
     <Link
       to={to}
@@ -39,7 +41,7 @@ const NavItem = ({ to, icon: Icon, label, isActive, onClick }: NavItemProps) => 
       onClick={onClick}
     >
       <Icon size={20} />
-      <span>{label}</span>
+      {!isCollapsed && <span>{label}</span>}
     </Link>
   );
 };
@@ -57,12 +59,12 @@ const Sidebar = () => {
     { to: '/', icon: Home, label: 'Dashboard' },
     { to: '/users', icon: Users, label: 'User Management' },
     { to: '/orders', icon: Package, label: 'Orders & Delivery' },
-    { to: '/wallet', icon: CreditCard, label: 'Wallet & Transactions' },
-    { to: '/disputes', icon: Gavel, label: 'Dispute Resolution' },
+    { to: '/wallet', icon: Wallet, label: 'Wallet & Transactions' },
+    { to: '/disputes', icon: User, label: 'Dispute Resolution' },
     { to: '/marketplace', icon: Calendar, label: 'Marketplace' },
-    { to: '/reports', icon: BarChart2, label: 'Analytics & Reports' },
+    { to: '/reports', icon: BarChart, label: 'Analytics & Reports' },
     { to: '/messages', icon: MessageSquare, label: 'Messaging' },
-    { to: '/audit', icon: LogIn, label: 'Audit Logs' },
+    { to: '/audit', icon: FileKey, label: 'Audit Logs' },
     { to: '/settings', icon: Settings, label: 'Platform Settings' },
   ];
 
@@ -80,6 +82,7 @@ const Sidebar = () => {
         <button
           onClick={toggleSidebar}
           className="text-sidebar-foreground hover:text-sidebar-primary p-2 rounded-md"
+          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {isCollapsed ? <Menu size={20} /> : <X size={20} />}
         </button>
@@ -95,7 +98,7 @@ const Sidebar = () => {
             isActive={
               item.to === '/' ? pathname === '/' : pathname.startsWith(item.to)
             }
-            onClick={isCollapsed ? toggleSidebar : undefined}
+            isCollapsed={isCollapsed}
           />
         ))}
       </nav>

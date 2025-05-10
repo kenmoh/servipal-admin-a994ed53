@@ -1,36 +1,32 @@
 
-import { Button } from '@/components/ui/button';
-import { Check, X, Edit, MoreHorizontal } from 'lucide-react';
 import DataTable from '@/components/common/DataTable';
 import StatusBadge from '@/components/common/StatusBadge';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { Eye } from 'lucide-react';
 
-type User = {
+type UserType = 'customer' | 'vendor' | 'dispatch_company' | 'rider';
+type UserStatus = 'active' | 'pending' | 'suspended';
+
+interface User {
   id: string;
   name: string;
   email: string;
   phone: string;
-  type: 'vendor' | 'customer' | 'dispatch_company' | 'rider';
+  type: UserType;
   registrationDate: string;
-  status: 'active' | 'pending' | 'suspended';
-};
+  status: UserStatus;
+}
 
 interface UserTableProps {
   users: User[];
+  onViewUser?: (user: User) => void;
 }
 
-const UserTable = ({ users }: UserTableProps) => {
+const UserTable = ({ users, onViewUser }: UserTableProps) => {
   const columns = [
+    { key: 'id', title: 'ID' },
     { key: 'name', title: 'Name' },
     { key: 'email', title: 'Email' },
-    { key: 'phone', title: 'Phone' },
     { 
       key: 'type', 
       title: 'User Type',
@@ -38,54 +34,27 @@ const UserTable = ({ users }: UserTableProps) => {
         <span className="capitalize">{value.replace('_', ' ')}</span>
       )
     },
-    { key: 'registrationDate', title: 'Registered' },
     { 
       key: 'status', 
       title: 'Status',
-      render: (value: 'active' | 'pending' | 'suspended') => (
+      render: (value: UserStatus) => (
         <StatusBadge status={value} />
       )
     },
+    { key: 'registrationDate', title: 'Registration Date' },
     {
       key: 'actions',
       title: 'Actions',
       render: (_: any, record: User) => (
         <div className="flex justify-end">
-          {record.status === 'pending' ? (
-            <div className="flex gap-2">
-              <Button size="icon" variant="ghost" className="text-green-600">
-                <Check size={16} />
-              </Button>
-              <Button size="icon" variant="ghost" className="text-red-600">
-                <X size={16} />
-              </Button>
-            </div>
-          ) : (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreHorizontal size={16} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Edit size={14} className="mr-2" />
-                  Edit details
-                </DropdownMenuItem>
-                <DropdownMenuItem>View profile</DropdownMenuItem>
-                {record.status === 'active' ? (
-                  <DropdownMenuItem className="text-red-600">
-                    Suspend user
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem className="text-green-600">
-                    Activate user
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
+          {onViewUser && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onViewUser(record)}
+            >
+              <Eye size={16} />
+            </Button>
           )}
         </div>
       ),

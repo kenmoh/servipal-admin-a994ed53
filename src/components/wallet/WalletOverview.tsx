@@ -1,70 +1,115 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import StatusBadge from '@/components/common/StatusBadge';
-import DataTable from '@/components/common/DataTable';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Eye } from 'lucide-react';
 
-type Transaction = {
+interface Transaction {
   id: string;
   user: string;
   type: string;
   amount: string;
   status: 'success' | 'pending' | 'error';
   date: string;
-};
+}
 
 interface WalletOverviewProps {
   totalBalance: string;
   escrowBalance: string;
   transactions: Transaction[];
+  onViewWallet?: (user: string, type: string) => void;
 }
 
-const WalletOverview = ({ totalBalance, escrowBalance, transactions }: WalletOverviewProps) => {
-  const columns = [
-    { key: 'id', title: 'Transaction ID' },
-    { key: 'user', title: 'User' },
-    { key: 'type', title: 'Type' },
-    { key: 'amount', title: 'Amount' },
-    { 
-      key: 'status', 
-      title: 'Status',
-      render: (value: 'success' | 'pending' | 'error') => (
-        <StatusBadge status={value} />
-      )
-    },
-    { key: 'date', title: 'Date' },
-  ];
-
+const WalletOverview = ({
+  totalBalance,
+  escrowBalance,
+  transactions,
+  onViewWallet,
+}: WalletOverviewProps) => {
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Total Platform Balance</CardTitle>
+          <CardHeader className="pb-2">
+            <CardDescription>Total Platform Balance</CardDescription>
+            <CardTitle className="text-3xl">{totalBalance}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{totalBalance}</div>
-            <p className="text-sm text-muted-foreground mt-1">
-              All user wallets combined
+            <p className="text-sm text-muted-foreground">
+              All funds across the platform including user wallets, escrow, and
+              commissions.
             </p>
           </CardContent>
         </Card>
+
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Escrow Balance</CardTitle>
+          <CardHeader className="pb-2">
+            <CardDescription>Escrow Balance</CardDescription>
+            <CardTitle className="text-3xl">{escrowBalance}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{escrowBalance}</div>
-            <p className="text-sm text-muted-foreground mt-1">
-              Funds held in escrow for pending orders
+            <p className="text-sm text-muted-foreground">
+              Funds held in escrow for pending transactions across all service
+              types.
             </p>
           </CardContent>
         </Card>
       </div>
 
-      <div>
-        <h2 className="text-lg font-medium mb-4">Recent Transactions</h2>
-        <DataTable columns={columns} data={transactions} />
-      </div>
+      <h2 className="text-lg font-semibold">Recent Transactions</h2>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>User</TableHead>
+            <TableHead>Type</TableHead>
+            <TableHead>Amount</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Date</TableHead>
+            {onViewWallet && <TableHead className="text-right">Actions</TableHead>}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {transactions.slice(0, 5).map((transaction) => (
+            <TableRow key={transaction.id}>
+              <TableCell className="font-medium">{transaction.id}</TableCell>
+              <TableCell>{transaction.user}</TableCell>
+              <TableCell>{transaction.type}</TableCell>
+              <TableCell>{transaction.amount}</TableCell>
+              <TableCell>
+                <StatusBadge status={transaction.status} />
+              </TableCell>
+              <TableCell>{transaction.date}</TableCell>
+              {onViewWallet && (
+                <TableCell className="text-right">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => onViewWallet(transaction.user, transaction.type)}
+                    title="View wallet details"
+                  >
+                    <Eye size={16} />
+                  </Button>
+                </TableCell>
+              )}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

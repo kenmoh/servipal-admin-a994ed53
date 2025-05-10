@@ -104,7 +104,7 @@ const Messages = () => {
       {
         id: 'MSG-103',
         sender: 'Support',
-        content: 'I checked with the vendor and they're preparing your order now. The rider should be assigned shortly.',
+        content: "I checked with the vendor and they're preparing your order now. The rider should be assigned shortly.",
         timestamp: '10:18 AM',
         read: true,
       },

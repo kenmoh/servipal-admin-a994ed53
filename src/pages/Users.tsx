@@ -9,14 +9,26 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Filter, Download, UserPlus, Eye, Edit } from 'lucide-react';
+import { Filter, Download, UserPlus, Eye, Edit, ArrowLeft } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose, SheetFooter } from '@/components/ui/sheet';
 import { useState } from 'react';
 import StatusBadge from '@/components/common/StatusBadge';
 import { toast } from '@/hooks/use-toast';
+import OrdersTable from '@/components/orders/OrdersTable';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 type UserType = 'customer' | 'vendor' | 'dispatch_company' | 'rider';
 type UserStatus = 'active' | 'pending' | 'suspended';
+type OrderStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled';
+type OrderType = 'food' | 'package' | 'laundry' | 'marketplace';
+type TransactionStatus = 'success' | 'pending' | 'error';
 
 interface User {
   id: string;
@@ -28,9 +40,37 @@ interface User {
   status: UserStatus;
 }
 
+interface Order {
+  id: string;
+  customer: string;
+  vendor: string;
+  type: OrderType;
+  amount: string;
+  status: OrderStatus;
+  date: string;
+}
+
+interface Transaction {
+  id: string;
+  user: string;
+  type: string;
+  amount: string;
+  status: TransactionStatus;
+  date: string;
+}
+
+interface WalletData {
+  id: string;
+  user: string;
+  balance: string;
+  escrowBalance: string;
+  pendingWithdrawals: string;
+}
+
 const Users = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [openSheet, setOpenSheet] = useState(false);
+  const [viewMode, setViewMode] = useState<'details' | 'orders' | 'wallet'>('details');
   
   // Mock user data
   const users: User[] = [
@@ -99,9 +139,119 @@ const Users = () => {
     },
   ];
 
+  // Mock orders for users
+  const userOrders: Record<string, Order[]> = {
+    'USR-001': [
+      {
+        id: 'ORD-001',
+        customer: 'John Doe',
+        vendor: 'Tasty Burger',
+        type: 'food',
+        amount: '$24.99',
+        status: 'completed',
+        date: '2023-05-15',
+      },
+      {
+        id: 'ORD-002',
+        customer: 'John Doe',
+        vendor: 'Quick Market',
+        type: 'marketplace',
+        amount: '$56.75',
+        status: 'in_progress',
+        date: '2023-05-17',
+      }
+    ],
+    'USR-002': [
+      {
+        id: 'ORD-003',
+        customer: 'Jane Smith',
+        vendor: 'Fresh Groceries',
+        type: 'food',
+        amount: '$32.50',
+        status: 'completed',
+        date: '2023-05-10',
+      }
+    ]
+  };
+
+  // Mock wallet data for users
+  const userWallets: Record<string, WalletData> = {
+    'USR-001': {
+      id: 'WAL-001',
+      user: 'John Doe',
+      balance: '$120.50',
+      escrowBalance: '$0.00',
+      pendingWithdrawals: '$0.00'
+    },
+    'USR-002': {
+      id: 'WAL-002',
+      user: 'Jane Smith',
+      balance: '$85.25',
+      escrowBalance: '$15.00',
+      pendingWithdrawals: '$0.00'
+    }
+  };
+
+  // Mock transactions for users
+  const userTransactions: Record<string, Transaction[]> = {
+    'USR-001': [
+      {
+        id: 'TRX-001',
+        user: 'John Doe',
+        type: 'Payment',
+        amount: '$24.99',
+        status: 'success',
+        date: '2023-05-15 12:30:45',
+      },
+      {
+        id: 'TRX-002',
+        user: 'John Doe',
+        type: 'Refund',
+        amount: '$12.50',
+        status: 'success',
+        date: '2023-05-10 15:22:30',
+      }
+    ],
+    'USR-002': [
+      {
+        id: 'TRX-003',
+        user: 'Jane Smith',
+        type: 'Payment',
+        amount: '$32.50',
+        status: 'success',
+        date: '2023-05-10 09:15:22',
+      },
+      {
+        id: 'TRX-004',
+        user: 'Jane Smith',
+        type: 'Withdrawal',
+        amount: '$50.00',
+        status: 'pending',
+        date: '2023-05-18 16:45:10',
+      }
+    ]
+  };
+
   const viewUserDetails = (user: User) => {
     setSelectedUser(user);
+    setViewMode('details');
     setOpenSheet(true);
+  };
+
+  const viewUserOrders = () => {
+    if (selectedUser) {
+      setViewMode('orders');
+    }
+  };
+
+  const viewUserWallet = () => {
+    if (selectedUser) {
+      setViewMode('wallet');
+    }
+  };
+
+  const backToDetails = () => {
+    setViewMode('details');
   };
 
   // Handler functions for the buttons
@@ -175,12 +325,30 @@ const Users = () => {
       </Card>
 
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-        <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle>User Details</SheetTitle>
-            <SheetDescription>{selectedUser?.id} - {selectedUser?.type}</SheetDescription>
+        <SheetContent className="w-full sm:max-w-[540px] overflow-y-auto">
+          <SheetHeader className="border-b pb-4 mb-4">
+            {viewMode !== 'details' && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="mb-2 -ml-2" 
+                onClick={backToDetails}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to details
+              </Button>
+            )}
+            <SheetTitle>
+              {viewMode === 'details' && "User Details"}
+              {viewMode === 'orders' && "User Orders"}
+              {viewMode === 'wallet' && "User Wallet"}
+            </SheetTitle>
+            <SheetDescription>
+              {selectedUser?.id} - {selectedUser?.type.replace('_', ' ')}
+            </SheetDescription>
           </SheetHeader>
-          {selectedUser && (
+
+          {selectedUser && viewMode === 'details' && (
             <div className="mt-6 space-y-6">
               <div className="space-y-2">
                 <h3 className="text-sm font-medium text-muted-foreground">Basic Information</h3>
@@ -264,14 +432,14 @@ const Users = () => {
                   <Button 
                     variant="outline" 
                     className="justify-start"
-                    onClick={() => handleUserAction('View Orders')}
+                    onClick={viewUserOrders}
                   >
                     <span>View Orders</span>
                   </Button>
                   <Button 
                     variant="outline" 
                     className="justify-start"
-                    onClick={() => handleUserAction('View Wallet')}
+                    onClick={viewUserWallet}
                   >
                     <span>View Wallet</span>
                   </Button>
@@ -281,6 +449,123 @@ const Users = () => {
               <SheetFooter>
                 <SheetClose asChild>
                   <Button variant="outline" className="w-full">Close</Button>
+                </SheetClose>
+              </SheetFooter>
+            </div>
+          )}
+
+          {selectedUser && viewMode === 'orders' && (
+            <div className="mt-6 space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-muted-foreground">Order History</h3>
+                
+                {userOrders[selectedUser.id] ? (
+                  <div className="rounded-md border overflow-hidden">
+                    <Table className="w-full">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[100px]">Order ID</TableHead>
+                          <TableHead>Vendor</TableHead>
+                          <TableHead>Type</TableHead>
+                          <TableHead>Amount</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Date</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {userOrders[selectedUser.id].map((order) => (
+                          <TableRow key={order.id}>
+                            <TableCell className="font-medium">{order.id}</TableCell>
+                            <TableCell>{order.vendor}</TableCell>
+                            <TableCell className="capitalize">{order.type}</TableCell>
+                            <TableCell>{order.amount}</TableCell>
+                            <TableCell>
+                              <StatusBadge status={order.status} />
+                            </TableCell>
+                            <TableCell>{order.date}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                ) : (
+                  <div className="py-8 text-center">
+                    <p className="text-muted-foreground">No orders found for this user</p>
+                  </div>
+                )}
+              </div>
+              
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button variant="outline" className="w-full sm:w-auto">Close</Button>
+                </SheetClose>
+              </SheetFooter>
+            </div>
+          )}
+
+          {selectedUser && viewMode === 'wallet' && (
+            <div className="mt-6 space-y-6">
+              {userWallets[selectedUser.id] ? (
+                <div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardDescription>Available Balance</CardDescription>
+                        <CardTitle className="text-2xl">{userWallets[selectedUser.id].balance}</CardTitle>
+                      </CardHeader>
+                    </Card>
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardDescription>Escrow Balance</CardDescription>
+                        <CardTitle className="text-2xl">{userWallets[selectedUser.id].escrowBalance}</CardTitle>
+                      </CardHeader>
+                    </Card>
+                  </div>
+                  
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Transaction History</h3>
+                  
+                  {userTransactions[selectedUser.id] ? (
+                    <div className="rounded-md border overflow-hidden">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>ID</TableHead>
+                            <TableHead>Type</TableHead>
+                            <TableHead>Amount</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Date</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {userTransactions[selectedUser.id].map((transaction) => (
+                            <TableRow key={transaction.id}>
+                              <TableCell className="font-medium">{transaction.id}</TableCell>
+                              <TableCell>{transaction.type}</TableCell>
+                              <TableCell>{transaction.amount}</TableCell>
+                              <TableCell>
+                                <StatusBadge status={transaction.status} />
+                              </TableCell>
+                              <TableCell>{transaction.date}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  ) : (
+                    <div className="py-8 text-center">
+                      <p className="text-muted-foreground">No transactions found for this user</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="py-8 text-center">
+                  <p className="text-muted-foreground">No wallet information found for this user</p>
+                </div>
+              )}
+              
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button variant="outline" className="w-full sm:w-auto">Close</Button>
                 </SheetClose>
               </SheetFooter>
             </div>

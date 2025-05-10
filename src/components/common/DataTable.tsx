@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Filter, Download } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -18,6 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 
 interface Column {
   key: string;
@@ -30,10 +36,22 @@ interface DataTableProps {
   data: any[];
   searchable?: boolean;
   filterable?: boolean;
+  exportable?: boolean;
   pagination?: boolean;
+  onFilter?: () => void;
+  onExport?: () => void;
 }
 
-const DataTable = ({ columns, data, searchable = true, filterable = true, pagination = true }: DataTableProps) => {
+const DataTable = ({ 
+  columns, 
+  data, 
+  searchable = true, 
+  filterable = true, 
+  exportable = true,
+  pagination = true,
+  onFilter,
+  onExport
+}: DataTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -58,12 +76,45 @@ const DataTable = ({ columns, data, searchable = true, filterable = true, pagina
     setCurrentPage(page);
   };
 
+  // Handle filter click
+  const handleFilterClick = () => {
+    if (onFilter) {
+      onFilter();
+    } else {
+      console.log('Filter clicked, but no handler provided');
+    }
+  };
+
+  // Handle export click
+  const handleExportClick = () => {
+    if (onExport) {
+      onExport();
+    } else {
+      console.log('Export clicked, but no handler provided');
+      // Default export logic
+      const csvData = [
+        columns.map(col => col.title),
+        ...filteredData.map(row => columns.map(col => row[col.key]))
+      ].map(row => row.join(',')).join('\n');
+      
+      const blob = new Blob([csvData], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden', '');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'export.csv');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
+
   return (
     <div className="w-full">
-      {(searchable || filterable) && (
+      {(searchable || filterable || exportable) && (
         <div className="flex justify-between items-center mb-4 gap-4 flex-wrap">
           {searchable && (
-            <div className="relative flex-1">
+            <div className="relative flex-1 min-w-[200px]">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
@@ -74,17 +125,47 @@ const DataTable = ({ columns, data, searchable = true, filterable = true, pagina
               />
             </div>
           )}
-          {filterable && (
-            <Button variant="outline" className="flex items-center gap-2">
-              <Filter size={16} />
-              Filter
-            </Button>
-          )}
+          <div className="flex gap-2">
+            {filterable && (
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2"
+                onClick={handleFilterClick}
+              >
+                <Filter size={16} />
+                Filter
+              </Button>
+            )}
+            {exportable && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    className="flex items-center gap-2"
+                  >
+                    <Download size={16} />
+                    Export
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleExportClick}>
+                    CSV
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleExportClick}>
+                    Excel
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleExportClick}>
+                    PDF
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
         </div>
       )}
 
-      <div className="rounded-md border">
-        <Table>
+      <div className="rounded-md border overflow-hidden">
+        <Table className="compact-table">
           <TableHeader>
             <TableRow>
               {columns.map((column) => (
@@ -95,7 +176,7 @@ const DataTable = ({ columns, data, searchable = true, filterable = true, pagina
           <TableBody>
             {currentData.length > 0 ? (
               currentData.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
+                <TableRow key={rowIndex} className="hover:bg-muted/40">
                   {columns.map((column) => (
                     <TableCell key={`${rowIndex}-${column.key}`}>
                       {column.render

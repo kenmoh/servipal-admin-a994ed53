@@ -24,9 +24,11 @@ import {
   SheetHeader, 
   SheetTitle, 
   SheetDescription,
-  SheetClose
+  SheetClose,
+  SheetFooter
 } from '@/components/ui/sheet';
 import StatusBadge from '@/components/common/StatusBadge';
+import { toast } from '@/hooks/use-toast';
 
 interface MarketplaceItem {
   id: string;
@@ -96,6 +98,41 @@ const Marketplace = () => {
     setOpenSheet(true);
   };
 
+  // Handle action buttons
+  const handleActionClick = (action: string) => {
+    toast({
+      title: "Action Triggered",
+      description: `${action} for item ${selectedItem?.id}`,
+    });
+  };
+
+  // Handle filter
+  const handleFilter = () => {
+    toast({
+      title: "Filter",
+      description: "Filter modal would open here",
+    });
+  };
+
+  // Handle export
+  const handleExport = () => {
+    toast({
+      title: "Export",
+      description: "Exporting marketplace data...",
+    });
+  };
+
+  // Function to map marketplace status to StatusBadge-compatible status
+  const getStatusBadgeVariant = (status: string) => {
+    switch(status) {
+      case 'active': return 'success';
+      case 'pending': return 'pending';
+      case 'sold': return 'info';
+      case 'removed': return 'error';
+      default: return 'pending';
+    }
+  };
+
   return (
     <Layout title="Marketplace">
       <Card>
@@ -107,55 +144,67 @@ const Marketplace = () => {
             </CardDescription>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={handleFilter}
+            >
               <Filter size={16} />
               Filter
             </Button>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={handleExport}
+            >
               <Download size={16} />
               Export
             </Button>
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Item ID</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Seller</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Date Listed</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {items.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.id}</TableCell>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.seller}</TableCell>
-                  <TableCell>{item.price}</TableCell>
-                  <TableCell>{item.category}</TableCell>
-                  <TableCell>
-                    <StatusBadge status={item.status} />
-                  </TableCell>
-                  <TableCell>{item.dateListed}</TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => viewItemDetails(item)}
-                    >
-                      <Eye size={16} />
-                    </Button>
-                  </TableCell>
+          <div className="rounded-md border overflow-hidden">
+            <Table className="compact-table">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Item ID</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Seller</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Date Listed</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {items.map((item) => (
+                  <TableRow key={item.id} className="hover:bg-muted/40">
+                    <TableCell className="font-medium">{item.id}</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.seller}</TableCell>
+                    <TableCell>{item.price}</TableCell>
+                    <TableCell>{item.category}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={getStatusBadgeVariant(item.status)} />
+                    </TableCell>
+                    <TableCell>{item.dateListed}</TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="flex items-center gap-1"
+                        onClick={() => viewItemDetails(item)}
+                      >
+                        <Eye size={16} />
+                        <span>View</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 
@@ -171,66 +220,82 @@ const Marketplace = () => {
           {selectedItem && (
             <div className="mt-6 space-y-6">
               <div className="space-y-2">
-                <h3 className="text-sm font-medium text-gray-500">Basic Information</h3>
+                <h3 className="text-sm font-medium text-muted-foreground">Basic Information</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium">Item Name</p>
-                    <p className="text-sm text-gray-500">{selectedItem.name}</p>
+                    <p className="text-sm text-muted-foreground">{selectedItem.name}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">Price</p>
-                    <p className="text-sm text-gray-500">{selectedItem.price}</p>
+                    <p className="text-sm text-muted-foreground">{selectedItem.price}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">Category</p>
-                    <p className="text-sm text-gray-500">{selectedItem.category}</p>
+                    <p className="text-sm text-muted-foreground">{selectedItem.category}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">Status</p>
-                    <StatusBadge status={selectedItem.status} />
+                    <StatusBadge status={getStatusBadgeVariant(selectedItem.status)} />
                   </div>
                   <div>
                     <p className="text-sm font-medium">Seller</p>
-                    <p className="text-sm text-gray-500">{selectedItem.seller}</p>
+                    <p className="text-sm text-muted-foreground">{selectedItem.seller}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">Listed Date</p>
-                    <p className="text-sm text-gray-500">{selectedItem.dateListed}</p>
+                    <p className="text-sm text-muted-foreground">{selectedItem.dateListed}</p>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-sm font-medium text-gray-500">Actions</h3>
+                <h3 className="text-sm font-medium text-muted-foreground">Actions</h3>
                 <div className="flex flex-col gap-2">
                   {selectedItem.status === 'pending' && (
                     <>
-                      <Button variant="default" className="justify-start">
+                      <Button 
+                        variant="default" 
+                        className="justify-start"
+                        onClick={() => handleActionClick("Approve Listing")}
+                      >
                         <span>Approve Listing</span>
                       </Button>
-                      <Button variant="destructive" className="justify-start">
+                      <Button 
+                        variant="destructive" 
+                        className="justify-start"
+                        onClick={() => handleActionClick("Reject Listing")}
+                      >
                         <span>Reject Listing</span>
                       </Button>
                     </>
                   )}
                   
                   {selectedItem.status === 'active' && (
-                    <Button variant="destructive" className="justify-start">
+                    <Button 
+                      variant="destructive" 
+                      className="justify-start"
+                      onClick={() => handleActionClick("Remove Listing")}
+                    >
                       <span>Remove Listing</span>
                     </Button>
                   )}
                   
-                  <Button variant="outline" className="justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="justify-start"
+                    onClick={() => handleActionClick("Contact Seller")}
+                  >
                     <span>Contact Seller</span>
                   </Button>
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end">
+              <SheetFooter>
                 <SheetClose asChild>
-                  <Button variant="outline">Close</Button>
+                  <Button variant="outline" className="w-full">Close</Button>
                 </SheetClose>
-              </div>
+              </SheetFooter>
             </div>
           )}
         </SheetContent>

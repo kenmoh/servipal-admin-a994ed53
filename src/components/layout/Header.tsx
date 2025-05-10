@@ -1,79 +1,48 @@
 
-import { Bell, Search, User } from 'lucide-react';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
+import { Bell } from 'lucide-react';
 
-type HeaderProps = {
+interface HeaderProps {
   title: string;
-};
+}
 
 const Header = ({ title }: HeaderProps) => {
+  const [notifications] = useState(3);
+  const location = useLocation();
+  
+  // Format path to readable title
+  const formatPathname = (pathname: string) => {
+    if (pathname === '/') return 'Dashboard';
+    return pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(2);
+  };
+
   return (
-    <header className="h-16 px-6 border-b flex items-center justify-between">
-      <h1 className="text-2xl font-semibold">{title}</h1>
-
-      <div className="flex items-center space-x-4">
-        <div className="relative hidden md:block">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="w-[200px] lg:w-[300px] pl-8"
-          />
+    <header className="border-b px-6 py-3 flex justify-between items-center bg-background">
+      <h1 className="text-2xl font-semibold">{title || formatPathname(location.pathname)}</h1>
+      <div className="flex items-center gap-3">
+        <ThemeSwitcher />
+        <div className="relative">
+          <Button variant="outline" size="icon" className="rounded-full">
+            <Bell className="h-5 w-5" />
+            {notifications > 0 && (
+              <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                {notifications}
+              </span>
+            )}
+          </Button>
         </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute top-1 right-1.5 flex h-2 w-2 rounded-full bg-destructive" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[300px]">
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium">New user registration</span>
-                <span className="text-xs text-muted-foreground">2 minutes ago</span>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium">Dispute filed</span>
-                <span className="text-xs text-muted-foreground">1 hour ago</span>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-center cursor-pointer text-primary">
-              View all notifications
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Admin User</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+            A
+          </div>
+          <div className="hidden md:block">
+            <p className="text-sm font-medium">Admin User</p>
+            <p className="text-xs text-muted-foreground">admin@example.com</p>
+          </div>
+        </div>
       </div>
     </header>
   );

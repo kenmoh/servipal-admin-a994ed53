@@ -9,10 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Filter, Download, UserPlus } from 'lucide-react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from '@/components/ui/sheet';
+import { Filter, Download, UserPlus, Eye, Edit } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose, SheetFooter } from '@/components/ui/sheet';
 import { useState } from 'react';
 import StatusBadge from '@/components/common/StatusBadge';
+import { toast } from '@/hooks/use-toast';
 
 type UserType = 'customer' | 'vendor' | 'dispatch_company' | 'rider';
 type UserStatus = 'active' | 'pending' | 'suspended';
@@ -103,6 +104,35 @@ const Users = () => {
     setOpenSheet(true);
   };
 
+  // Handler functions for the buttons
+  const handleFilter = () => {
+    toast({
+      title: "Filter",
+      description: "Filter modal would open here",
+    });
+  };
+
+  const handleExport = () => {
+    toast({
+      title: "Export",
+      description: "Exporting user data...",
+    });
+  };
+
+  const handleAddUser = () => {
+    toast({
+      title: "Add User",
+      description: "User creation form would open here",
+    });
+  };
+
+  const handleUserAction = (action: string) => {
+    toast({
+      title: "Action Triggered",
+      description: `${action} action for ${selectedUser?.name}`,
+    });
+  };
+
   return (
     <Layout title="User Management">
       <Card>
@@ -114,15 +144,26 @@ const Users = () => {
             </CardDescription>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={handleFilter}
+            >
               <Filter size={16} />
               Filter
             </Button>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={handleExport}
+            >
               <Download size={16} />
               Export
             </Button>
-            <Button className="flex items-center gap-2">
+            <Button 
+              className="flex items-center gap-2"
+              onClick={handleAddUser}
+            >
               <UserPlus size={16} />
               Add User
             </Button>
@@ -142,11 +183,11 @@ const Users = () => {
           {selectedUser && (
             <div className="mt-6 space-y-6">
               <div className="space-y-2">
-                <h3 className="text-sm font-medium text-gray-500">Basic Information</h3>
+                <h3 className="text-sm font-medium text-muted-foreground">Basic Information</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium">Name</p>
-                    <p className="text-sm text-gray-500">{selectedUser.name}</p>
+                    <p className="text-sm text-muted-foreground">{selectedUser.name}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">Status</p>
@@ -154,19 +195,19 @@ const Users = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium">Email</p>
-                    <p className="text-sm text-gray-500">{selectedUser.email}</p>
+                    <p className="text-sm text-muted-foreground">{selectedUser.email}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">Phone</p>
-                    <p className="text-sm text-gray-500">{selectedUser.phone}</p>
+                    <p className="text-sm text-muted-foreground">{selectedUser.phone}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">Registration Date</p>
-                    <p className="text-sm text-gray-500">{selectedUser.registrationDate}</p>
+                    <p className="text-sm text-muted-foreground">{selectedUser.registrationDate}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium">User Type</p>
-                    <p className="text-sm text-gray-500 capitalize">
+                    <p className="text-sm text-muted-foreground capitalize">
                       {selectedUser.type.replace('_', ' ')}
                     </p>
                   </div>
@@ -174,45 +215,74 @@ const Users = () => {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-sm font-medium text-gray-500">Actions</h3>
+                <h3 className="text-sm font-medium text-muted-foreground">Actions</h3>
                 <div className="flex flex-col gap-2">
                   {selectedUser.status === 'active' && (
-                    <Button variant="destructive" className="justify-start">
+                    <Button 
+                      variant="destructive" 
+                      className="justify-start"
+                      onClick={() => handleUserAction('Suspend User')}
+                    >
                       <span>Suspend User</span>
                     </Button>
                   )}
                   {selectedUser.status === 'suspended' && (
-                    <Button variant="default" className="justify-start">
+                    <Button 
+                      variant="default" 
+                      className="justify-start"
+                      onClick={() => handleUserAction('Activate User')}
+                    >
                       <span>Activate User</span>
                     </Button>
                   )}
                   {selectedUser.status === 'pending' && (
                     <>
-                      <Button variant="default" className="justify-start">
+                      <Button 
+                        variant="default" 
+                        className="justify-start"
+                        onClick={() => handleUserAction('Approve User')}
+                      >
                         <span>Approve User</span>
                       </Button>
-                      <Button variant="destructive" className="justify-start">
+                      <Button 
+                        variant="destructive" 
+                        className="justify-start"
+                        onClick={() => handleUserAction('Reject User')}
+                      >
                         <span>Reject User</span>
                       </Button>
                     </>
                   )}
-                  <Button variant="outline" className="justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="justify-start"
+                    onClick={() => handleUserAction('Edit User')}
+                  >
+                    <Edit className="mr-2 h-4 w-4" />
                     <span>Edit User</span>
                   </Button>
-                  <Button variant="outline" className="justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="justify-start"
+                    onClick={() => handleUserAction('View Orders')}
+                  >
                     <span>View Orders</span>
                   </Button>
-                  <Button variant="outline" className="justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="justify-start"
+                    onClick={() => handleUserAction('View Wallet')}
+                  >
                     <span>View Wallet</span>
                   </Button>
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end">
+              <SheetFooter>
                 <SheetClose asChild>
-                  <Button variant="outline">Close</Button>
+                  <Button variant="outline" className="w-full">Close</Button>
                 </SheetClose>
-              </div>
+              </SheetFooter>
             </div>
           )}
         </SheetContent>

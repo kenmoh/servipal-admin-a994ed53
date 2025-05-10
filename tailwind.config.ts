@@ -75,6 +75,31 @@ export default {
 					DEFAULT: '#3B82F6',
 					foreground: '#FFFFFF'
 				},
+				// New status-specific colors
+				open: {
+					DEFAULT: '#6366F1', // Indigo
+					foreground: '#FFFFFF'
+				},
+				in_progress: {
+					DEFAULT: '#8B5CF6', // Purple
+					foreground: '#FFFFFF'
+				},
+				resolved: {
+					DEFAULT: '#10B981', // Green (reused)
+					foreground: '#FFFFFF'
+				},
+				rejected: {
+					DEFAULT: '#EF4444', // Red
+					foreground: '#FFFFFF'
+				},
+				sold: {
+					DEFAULT: '#6366F1', // Indigo
+					foreground: '#FFFFFF'
+				},
+				removed: {
+					DEFAULT: '#6B7280', // Gray
+					foreground: '#FFFFFF'
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -100,11 +125,31 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					from: {
+						opacity: '0',
+						transform: 'translateY(5px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'slide-in': {
+					from: { 
+						transform: 'translateX(-100%)' 
+					},
+					to: { 
+						transform: 'translateX(0)' 
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out',
+				'slide-in': 'slide-in 0.3s ease-out'
 			}
 		}
 	},

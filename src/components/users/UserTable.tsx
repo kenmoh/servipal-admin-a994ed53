@@ -50,10 +50,12 @@ const UserTable = ({ users, onViewUser }: UserTableProps) => {
           {onViewUser && (
             <Button
               variant="ghost"
-              size="icon"
+              size="sm"
+              className="flex items-center gap-1"
               onClick={() => onViewUser(record)}
             >
               <Eye size={16} />
+              <span>View</span>
             </Button>
           )}
         </div>

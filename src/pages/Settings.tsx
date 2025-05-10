@@ -14,6 +14,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
+import { toast } from '@/hooks/use-toast';
+import { 
+  Table, 
+  TableHeader, 
+  TableRow, 
+  TableHead, 
+  TableBody, 
+  TableCell 
+} from '@/components/ui/table';
+import { Plus, X, Edit, Check, Upload } from 'lucide-react';
 
 const Settings = () => {
   const [commissionRates, setCommissionRates] = useState({
@@ -23,10 +33,76 @@ const Settings = () => {
     marketplace: 10,
   });
 
+  const [serviceAreas, setServiceAreas] = useState([
+    { id: 1, name: 'Downtown', active: true, dispatchCompany: 'Fast Delivery Co.', minDeliveryTime: '15-20 min' },
+    { id: 2, name: 'North Side', active: true, dispatchCompany: 'Express Logistics', minDeliveryTime: '25-30 min' },
+    { id: 3, name: 'South District', active: true, dispatchCompany: 'Quick Dash', minDeliveryTime: '20-25 min' },
+    { id: 4, name: 'West End', active: false, dispatchCompany: 'City Courier', minDeliveryTime: '30-40 min' },
+  ]);
+
+  const [banners, setBanners] = useState([
+    { id: 1, title: 'Summer Sale', status: 'active', startDate: '2023-06-01', endDate: '2023-08-31' },
+    { id: 2, title: 'New User Promotion', status: 'scheduled', startDate: '2023-07-15', endDate: '2023-08-15' },
+    { id: 3, title: 'Flash Deals', status: 'draft', startDate: '', endDate: '' },
+  ]);
+
+  const [policies, setPolicies] = useState([
+    { id: 1, title: 'Terms of Service', lastUpdated: '2023-05-15' },
+    { id: 2, title: 'Privacy Policy', lastUpdated: '2023-05-15' },
+    { id: 3, title: 'Refund Policy', lastUpdated: '2023-04-22' },
+  ]);
+
   const handleCommissionChange = (service: keyof typeof commissionRates) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommissionRates({
       ...commissionRates,
       [service]: parseInt(e.target.value) || 0,
+    });
+  };
+
+  const handleAddServiceArea = () => {
+    toast({
+      title: "Add Service Area",
+      description: "Service area modal would open here",
+    });
+  };
+
+  const handleEditServiceArea = (id: number) => {
+    toast({
+      title: "Edit Service Area",
+      description: `Editing service area ${id}`,
+    });
+  };
+
+  const handleToggleServiceArea = (id: number) => {
+    setServiceAreas(areas => 
+      areas.map(area => 
+        area.id === id ? { ...area, active: !area.active } : area
+      )
+    );
+    toast({
+      title: "Service Area Updated",
+      description: `Service area status updated successfully`,
+    });
+  };
+
+  const handleAddBanner = () => {
+    toast({
+      title: "Add Banner",
+      description: "Banner creation form would open here",
+    });
+  };
+
+  const handleEditBanner = (id: number) => {
+    toast({
+      title: "Edit Banner",
+      description: `Editing banner ${id}`,
+    });
+  };
+
+  const handleEditPolicy = (id: number) => {
+    toast({
+      title: "Edit Policy",
+      description: `Editing policy ${id}`,
     });
   };
 
@@ -61,7 +137,7 @@ const Settings = () => {
                       value={commissionRates.food}
                       onChange={handleCommissionChange('food')}
                     />
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Current rate: {commissionRates.food}%
                     </p>
                   </div>
@@ -76,7 +152,7 @@ const Settings = () => {
                       value={commissionRates.package}
                       onChange={handleCommissionChange('package')}
                     />
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Current rate: {commissionRates.package}%
                     </p>
                   </div>
@@ -91,7 +167,7 @@ const Settings = () => {
                       value={commissionRates.laundry}
                       onChange={handleCommissionChange('laundry')}
                     />
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Current rate: {commissionRates.laundry}%
                     </p>
                   </div>
@@ -106,7 +182,7 @@ const Settings = () => {
                       value={commissionRates.marketplace}
                       onChange={handleCommissionChange('marketplace')}
                     />
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Current rate: {commissionRates.marketplace}%
                     </p>
                   </div>
@@ -209,34 +285,176 @@ const Settings = () => {
         
         <TabsContent value="areas">
           <Card>
-            <CardHeader>
-              <CardTitle>Service Areas</CardTitle>
-              <CardDescription>
-                Define operational regions and assign dispatch companies
-              </CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Service Areas</CardTitle>
+                <CardDescription>
+                  Define operational regions and assign dispatch companies
+                </CardDescription>
+              </div>
+              <Button onClick={handleAddServiceArea}>
+                <Plus className="mr-2 h-4 w-4" /> Add Service Area
+              </Button>
             </CardHeader>
             <CardContent>
-              <div className="text-center p-6 text-gray-500">
-                Service areas management interface will be implemented here
-              </div>
+              <Table className="compact-table">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Area Name</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Dispatch Company</TableHead>
+                    <TableHead>Min. Delivery Time</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {serviceAreas.map((area) => (
+                    <TableRow key={area.id}>
+                      <TableCell className="font-medium">{area.name}</TableCell>
+                      <TableCell>
+                        <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          area.active 
+                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
+                            : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+                        }`}>
+                          {area.active ? 'Active' : 'Inactive'}
+                        </div>
+                      </TableCell>
+                      <TableCell>{area.dispatchCompany}</TableCell>
+                      <TableCell>{area.minDeliveryTime}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="icon" 
+                            onClick={() => handleToggleServiceArea(area.id)} 
+                            title={area.active ? 'Deactivate' : 'Activate'}
+                          >
+                            {area.active ? <X className="h-4 w-4" /> : <Check className="h-4 w-4" />}
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="icon" 
+                            onClick={() => handleEditServiceArea(area.id)}
+                            title="Edit"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </CardContent>
           </Card>
         </TabsContent>
         
         <TabsContent value="content">
-          <Card>
-            <CardHeader>
-              <CardTitle>Content Management</CardTitle>
-              <CardDescription>
-                Manage app content, banners, and policies
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center p-6 text-gray-500">
-                Content management interface will be implemented here
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid gap-6">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Banner Management</CardTitle>
+                  <CardDescription>
+                    Manage promotional banners and advertisements
+                  </CardDescription>
+                </div>
+                <Button onClick={handleAddBanner}>
+                  <Plus className="mr-2 h-4 w-4" /> Add Banner
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <Table className="compact-table">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Banner Title</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Start Date</TableHead>
+                      <TableHead>End Date</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {banners.map((banner) => (
+                      <TableRow key={banner.id}>
+                        <TableCell className="font-medium">{banner.title}</TableCell>
+                        <TableCell>
+                          <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            banner.status === 'active' 
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
+                              : banner.status === 'scheduled'
+                              ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
+                              : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+                          }`}>
+                            {banner.status.charAt(0).toUpperCase() + banner.status.slice(1)}
+                          </div>
+                        </TableCell>
+                        <TableCell>{banner.startDate || 'N/A'}</TableCell>
+                        <TableCell>{banner.endDate || 'N/A'}</TableCell>
+                        <TableCell className="text-right">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => handleEditBanner(banner.id)}
+                            className="h-8"
+                          >
+                            <Edit className="h-3.5 w-3.5 mr-1" /> Edit
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Policy Management</CardTitle>
+                <CardDescription>
+                  Update platform policies and legal documents
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table className="compact-table">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Policy</TableHead>
+                      <TableHead>Last Updated</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {policies.map((policy) => (
+                      <TableRow key={policy.id}>
+                        <TableCell className="font-medium">{policy.title}</TableCell>
+                        <TableCell>{policy.lastUpdated}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => handleEditPolicy(policy.id)}
+                              className="h-8"
+                            >
+                              <Edit className="h-3.5 w-3.5 mr-1" /> Edit
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <p className="text-sm text-muted-foreground">All policies should be reviewed by legal before publishing</p>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Upload className="h-4 w-4" /> Upload New Policy
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </Layout>

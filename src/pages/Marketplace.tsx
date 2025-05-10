@@ -123,11 +123,11 @@ const Marketplace = () => {
   };
 
   // Function to map marketplace status to StatusBadge-compatible status
-  const getStatusBadgeVariant = (status: string) => {
+  const getStatusBadgeVariant = (status: string): "pending" | "success" | "error" | "warning" => {
     switch(status) {
       case 'active': return 'success';
       case 'pending': return 'pending';
-      case 'sold': return 'info';
+      case 'sold': return 'warning';
       case 'removed': return 'error';
       default: return 'pending';
     }

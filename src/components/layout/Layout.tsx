@@ -1,25 +1,26 @@
 
 import { ReactNode } from 'react';
 import Header from './Header';
+import { Link, useLocation } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 import { 
-  SidebarProvider, 
   Sidebar, 
   SidebarContent, 
   SidebarHeader, 
   SidebarFooter, 
   SidebarMenu, 
   SidebarMenuItem, 
-  SidebarMenuButton
+  SidebarMenuButton,
+  SidebarProvider,
+  SidebarTrigger
 } from '@/components/ui/sidebar';
+
 import { 
   Home, Users, Package, 
   Wallet, MessageSquare, 
   Settings, FileKey, 
-  BarChart, Calendar, 
-  Menu 
+  BarChart, Calendar
 } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
-import { cn } from '@/lib/utils';
 
 interface LayoutProps {
   children: ReactNode;
@@ -48,6 +49,7 @@ const Layout = ({ children, title }: LayoutProps) => {
         <Sidebar>
           <SidebarHeader className="flex items-center h-16 px-4">
             <div className="font-semibold text-xl">Admin Portal</div>
+            <SidebarTrigger className="ml-auto" />
           </SidebarHeader>
           
           <SidebarContent>

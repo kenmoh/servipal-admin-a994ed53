@@ -29,6 +29,14 @@ import {
 } from '@/components/ui/sheet';
 import StatusBadge from '@/components/common/StatusBadge';
 import { toast } from '@/hooks/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import ContactSellerForm from '@/components/marketplace/ContactSellerForm';
 
 interface MarketplaceItem {
   id: string;
@@ -43,6 +51,7 @@ interface MarketplaceItem {
 const Marketplace = () => {
   const [selectedItem, setSelectedItem] = useState<MarketplaceItem | null>(null);
   const [openSheet, setOpenSheet] = useState(false);
+  const [contactDialogOpen, setContactDialogOpen] = useState(false);
   
   // Mock marketplace items data
   const items: MarketplaceItem[] = [
@@ -96,6 +105,13 @@ const Marketplace = () => {
   const viewItemDetails = (item: MarketplaceItem) => {
     setSelectedItem(item);
     setOpenSheet(true);
+  };
+
+  const handleContactSeller = () => {
+    if (selectedItem) {
+      setOpenSheet(false);
+      setTimeout(() => setContactDialogOpen(true), 300);
+    }
   };
 
   // Handle action buttons
@@ -164,7 +180,7 @@ const Marketplace = () => {
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-hidden">
-            <Table className="compact-table">
+            <Table className="w-full">
               <TableHeader>
                 <TableRow>
                   <TableHead>Item ID</TableHead>
@@ -208,6 +224,7 @@ const Marketplace = () => {
         </CardContent>
       </Card>
 
+      {/* Item Detail Sheet */}
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
         <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
           <SheetHeader>
@@ -284,7 +301,7 @@ const Marketplace = () => {
                   <Button 
                     variant="outline" 
                     className="justify-start"
-                    onClick={() => handleActionClick("Contact Seller")}
+                    onClick={handleContactSeller}
                   >
                     <span>Contact Seller</span>
                   </Button>
@@ -300,6 +317,24 @@ const Marketplace = () => {
           )}
         </SheetContent>
       </Sheet>
+
+      {/* Contact Seller Dialog */}
+      <Dialog open={contactDialogOpen} onOpenChange={setContactDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Contact Seller</DialogTitle>
+            <DialogDescription>
+              Send a message to {selectedItem?.seller} about "{selectedItem?.name}"
+            </DialogDescription>
+          </DialogHeader>
+          {selectedItem && (
+            <ContactSellerForm 
+              sellerName={selectedItem.seller}
+              onSuccess={() => setContactDialogOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

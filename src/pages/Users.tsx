@@ -1,3 +1,4 @@
+
 import Layout from '@/components/layout/Layout';
 import UserTable from '@/components/users/UserTable';
 import { Button } from '@/components/ui/button';
@@ -8,12 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Filter, Download, UserPlus, Eye, Edit, ArrowLeft } from 'lucide-react';
+import { Filter, Download, UserPlus, Eye, Edit, ArrowLeft, User } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose, SheetFooter } from '@/components/ui/sheet';
 import { useState } from 'react';
 import StatusBadge from '@/components/common/StatusBadge';
 import { toast } from '@/hooks/use-toast';
-import OrdersTable from '@/components/orders/OrdersTable';
 import {
   Table,
   TableBody,
@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import AddUserForm from '@/components/users/AddUserForm';
+import EditUserForm from '@/components/users/EditUserForm';
 
 type UserType = 'customer' | 'vendor' | 'dispatch_company' | 'rider';
 type UserStatus = 'active' | 'pending' | 'suspended';
@@ -47,6 +48,22 @@ interface User {
   status: UserStatus;
 }
 
+interface Rider {
+  id: string;
+  name: string;
+  phone: string;
+  status: 'available' | 'busy' | 'offline';
+  rating: number;
+}
+
+interface DispatchCompany {
+  id: string;
+  name: string;
+  contactPerson: string;
+  phone: string;
+  totalRiders: number;
+}
+
 interface Order {
   id: string;
   customer: string;
@@ -55,6 +72,8 @@ interface Order {
   amount: string;
   status: OrderStatus;
   date: string;
+  riderId?: string;
+  dispatchCompanyId?: string;
 }
 
 interface Transaction {
@@ -79,6 +98,9 @@ const Users = () => {
   const [openSheet, setOpenSheet] = useState(false);
   const [viewMode, setViewMode] = useState<'details' | 'orders' | 'wallet'>('details');
   const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
+  const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [orderDetailSheetOpen, setOrderDetailSheetOpen] = useState(false);
   
   // Mock user data
   const users: User[] = [
@@ -147,6 +169,42 @@ const Users = () => {
     },
   ];
 
+  // Mock riders data
+  const riders: Record<string, Rider> = {
+    'RDR-001': {
+      id: 'RDR-001',
+      name: 'Alex Johnson',
+      phone: '+1234567890',
+      status: 'available',
+      rating: 4.8
+    },
+    'RDR-002': {
+      id: 'RDR-002',
+      name: 'Maria Garcia',
+      phone: '+1987654321',
+      status: 'busy',
+      rating: 4.5
+    }
+  };
+
+  // Mock dispatch companies
+  const dispatchCompanies: Record<string, DispatchCompany> = {
+    'DSP-001': {
+      id: 'DSP-001',
+      name: 'Quick Delivery Co.',
+      contactPerson: 'James Smith',
+      phone: '+1122334455',
+      totalRiders: 15
+    },
+    'DSP-002': {
+      id: 'DSP-002',
+      name: 'Fast Riders Inc',
+      contactPerson: 'Emma Wilson',
+      phone: '+1222333444',
+      totalRiders: 8
+    }
+  };
+
   // Mock orders for users
   const userOrders: Record<string, Order[]> = {
     'USR-001': [
@@ -158,6 +216,8 @@ const Users = () => {
         amount: '$24.99',
         status: 'completed',
         date: '2023-05-15',
+        riderId: 'RDR-001',
+        dispatchCompanyId: 'DSP-001'
       },
       {
         id: 'ORD-002',
@@ -167,6 +227,8 @@ const Users = () => {
         amount: '$56.75',
         status: 'in_progress',
         date: '2023-05-17',
+        riderId: 'RDR-002',
+        dispatchCompanyId: 'DSP-001'
       }
     ],
     'USR-002': [
@@ -178,6 +240,8 @@ const Users = () => {
         amount: '$32.50',
         status: 'completed',
         date: '2023-05-10',
+        riderId: 'RDR-001',
+        dispatchCompanyId: 'DSP-002'
       }
     ]
   };
@@ -258,8 +322,18 @@ const Users = () => {
     }
   };
 
+  const viewOrderDetails = (order: Order) => {
+    setSelectedOrder(order);
+    setOrderDetailSheetOpen(true);
+  };
+
   const backToDetails = () => {
     setViewMode('details');
+  };
+
+  const handleEditUser = () => {
+    setOpenSheet(false);
+    setTimeout(() => setEditUserDialogOpen(true), 300);
   };
 
   // Handler functions for the buttons
@@ -274,13 +348,6 @@ const Users = () => {
     toast({
       title: "Export",
       description: "Exporting user data...",
-    });
-  };
-
-  const handleAddUser = () => {
-    toast({
-      title: "Add User",
-      description: "User creation form would open here",
     });
   };
 
@@ -342,6 +409,24 @@ const Users = () => {
             </DialogDescription>
           </DialogHeader>
           <AddUserForm onSuccess={() => setAddUserDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit User Dialog */}
+      <Dialog open={editUserDialogOpen} onOpenChange={setEditUserDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit User</DialogTitle>
+            <DialogDescription>
+              Update user information.
+            </DialogDescription>
+          </DialogHeader>
+          {selectedUser && (
+            <EditUserForm 
+              user={selectedUser} 
+              onSuccess={() => setEditUserDialogOpen(false)} 
+            />
+          )}
         </DialogContent>
       </Dialog>
 
@@ -447,7 +532,7 @@ const Users = () => {
                   <Button 
                     variant="outline" 
                     className="justify-start"
-                    onClick={() => handleUserAction('Edit User')}
+                    onClick={handleEditUser}
                   >
                     <Edit className="mr-2 h-4 w-4" />
                     <span>Edit User</span>
@@ -494,6 +579,7 @@ const Users = () => {
                           <TableHead>Amount</TableHead>
                           <TableHead>Status</TableHead>
                           <TableHead>Date</TableHead>
+                          <TableHead>Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -507,6 +593,15 @@ const Users = () => {
                               <StatusBadge status={order.status} />
                             </TableCell>
                             <TableCell>{order.date}</TableCell>
+                            <TableCell>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => viewOrderDetails(order)}
+                              >
+                                <Eye size={16} />
+                              </Button>
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -588,6 +683,118 @@ const Users = () => {
                 </div>
               )}
               
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button variant="outline" className="w-full sm:w-auto">Close</Button>
+                </SheetClose>
+              </SheetFooter>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Order Detail Sheet with Rider/Dispatch info */}
+      <Sheet open={orderDetailSheetOpen} onOpenChange={setOrderDetailSheetOpen}>
+        <SheetContent className="w-full sm:max-w-[540px] overflow-y-auto">
+          <SheetHeader className="border-b pb-4 mb-4">
+            <SheetTitle>Order Details</SheetTitle>
+            <SheetDescription>
+              {selectedOrder?.id}
+            </SheetDescription>
+          </SheetHeader>
+          
+          {selectedOrder && (
+            <div className="mt-6 space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-muted-foreground">Order Information</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm font-medium">Customer</p>
+                    <p className="text-sm text-muted-foreground">{selectedOrder.customer}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Vendor</p>
+                    <p className="text-sm text-muted-foreground">{selectedOrder.vendor}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Type</p>
+                    <p className="text-sm text-muted-foreground capitalize">{selectedOrder.type}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Amount</p>
+                    <p className="text-sm text-muted-foreground">{selectedOrder.amount}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Status</p>
+                    <StatusBadge status={selectedOrder.status} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Date</p>
+                    <p className="text-sm text-muted-foreground">{selectedOrder.date}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Rider information (if assigned) */}
+              {selectedOrder.riderId && riders[selectedOrder.riderId] && (
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">Rider Information</h3>
+                  <Card className="bg-muted/30">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="bg-primary/10 p-2 rounded-full">
+                          <User size={24} className="text-primary" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium">{riders[selectedOrder.riderId].name}</h4>
+                          <p className="text-sm text-muted-foreground">Rider</p>
+                        </div>
+                        <StatusBadge status={riders[selectedOrder.riderId].status === 'available' ? 'success' : riders[selectedOrder.riderId].status === 'busy' ? 'warning' : 'error'} className="ml-auto" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm font-medium">Phone</p>
+                          <p className="text-sm text-muted-foreground">{riders[selectedOrder.riderId].phone}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Rating</p>
+                          <p className="text-sm text-muted-foreground">⭐ {riders[selectedOrder.riderId].rating}/5</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {/* Dispatch Company information (if assigned) */}
+              {selectedOrder.dispatchCompanyId && dispatchCompanies[selectedOrder.dispatchCompanyId] && (
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">Dispatch Company</h3>
+                  <Card className="bg-muted/30">
+                    <CardContent className="pt-6">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm font-medium">Company</p>
+                          <p className="text-sm text-muted-foreground">{dispatchCompanies[selectedOrder.dispatchCompanyId].name}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Contact Person</p>
+                          <p className="text-sm text-muted-foreground">{dispatchCompanies[selectedOrder.dispatchCompanyId].contactPerson}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Phone</p>
+                          <p className="text-sm text-muted-foreground">{dispatchCompanies[selectedOrder.dispatchCompanyId].phone}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Total Riders</p>
+                          <p className="text-sm text-muted-foreground">{dispatchCompanies[selectedOrder.dispatchCompanyId].totalRiders}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
               <SheetFooter>
                 <SheetClose asChild>
                   <Button variant="outline" className="w-full sm:w-auto">Close</Button>

@@ -46,7 +46,7 @@ const Layout = ({ children, title }: LayoutProps) => {
   return (
     <div className="min-h-screen flex w-full">
       <SidebarProvider defaultOpen={true}>
-        <Sidebar>
+        <Sidebar collapsible="icon">
           <SidebarHeader className="flex items-center h-16 px-4">
             <div className="font-semibold text-xl">Admin Portal</div>
             <SidebarTrigger className="ml-auto" />

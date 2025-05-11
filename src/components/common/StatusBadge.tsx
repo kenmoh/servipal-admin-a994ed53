@@ -1,11 +1,13 @@
 
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 type StatusType = 'active' | 'pending' | 'suspended' | 'completed' | 'cancelled' | 'in_progress' | 'approved' | 'rejected' | 'success' | 'warning' | 'error';
 
 interface StatusBadgeProps {
   status: StatusType;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const statusStyles = {
@@ -22,7 +24,7 @@ const statusStyles = {
   error: 'bg-red-100 text-red-800 border-red-200',
 };
 
-const StatusBadge = ({ status, className }: StatusBadgeProps) => {
+const StatusBadge = ({ status, className, children }: StatusBadgeProps) => {
   return (
     <span
       className={cn(
@@ -31,7 +33,7 @@ const StatusBadge = ({ status, className }: StatusBadgeProps) => {
         className
       )}
     >
-      {status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}
+      {children || status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}
     </span>
   );
 };

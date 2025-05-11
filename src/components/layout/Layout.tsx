@@ -65,6 +65,10 @@ const Layout = ({ children, title }: LayoutProps) => {
                       asChild 
                       isActive={isActive}
                       tooltip={item.label}
+                      onClick={(e) => {
+                        // Prevent the default behavior that would open the sidebar
+                        e.stopPropagation();
+                      }}
                     >
                       <Link to={item.to}>
                         <item.icon />
@@ -78,9 +82,12 @@ const Layout = ({ children, title }: LayoutProps) => {
           </SidebarContent>
           
           <SidebarFooter>
-            <div className="p-4 text-xs text-sidebar-foreground">
+            <div className="p-4 text-xs text-sidebar-foreground group-data-[collapsible=icon]:hidden">
               <div>Admin Portal v1.0</div>
               <div className="mt-1">© 2025 Your Company</div>
+            </div>
+            <div className="hidden p-4 text-xs text-sidebar-foreground group-data-[collapsible=icon]:block group-data-[collapsible=icon]:text-center">
+              <div>v1.0</div>
             </div>
           </SidebarFooter>
         </Sidebar>

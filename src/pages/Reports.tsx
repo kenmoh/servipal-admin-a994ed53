@@ -16,7 +16,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { BarChart, LineChart, PieChart } from 'recharts';
+import { 
+  BarChart as RechartsBarChart, 
+  LineChart as RechartsLineChart,
+  PieChart as RechartsPieChart,
+  Bar, Line, Pie,
+  XAxis, YAxis, CartesianGrid, 
+  Tooltip, Legend, Cell, 
+  ResponsiveContainer,
+  TooltipProps
+} from 'recharts';
 import { Download, Filter, Calendar } from 'lucide-react';
 
 const Reports = () => {
@@ -65,6 +74,9 @@ const Reports = () => {
     { source: 'Other', percentage: 5, amount: '$12,057' },
   ];
 
+  // Colors for pie chart
+  const COLORS = ['#8B5CF6', '#D946EF', '#F97316', '#0EA5E9'];
+
   return (
     <Layout title="Analytics & Reports">
       <div className="flex justify-between items-center mb-6">
@@ -95,7 +107,7 @@ const Reports = () => {
       {/* Key Performance Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
         {Object.entries(performanceData).map(([key, value], index) => (
-          <Card key={key}>
+          <Card key={key} className="shadow-sm hover:shadow-md transition-shadow duration-200">
             <CardHeader className="p-4 pb-2">
               <CardDescription className="capitalize">{key.replace(/([A-Z])/g, ' $1')}</CardDescription>
             </CardHeader>
@@ -107,45 +119,87 @@ const Reports = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
+        {/* Revenue Trend Chart */}
+        <Card className="shadow-sm">
           <CardHeader>
             <CardTitle>Revenue Trend</CardTitle>
             <CardDescription>Monthly revenue over the last 6 months</CardDescription>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <div className="text-center text-gray-500 h-full flex items-center justify-center border-2 border-dashed rounded-lg">
-              Line Chart Visualization Placeholder
-            </div>
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsLineChart data={revenueData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip formatter={(value) => [`$${value}`, 'Revenue']} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="#8B5CF6"
+                  strokeWidth={2}
+                  activeDot={{ r: 8 }}
+                />
+              </RechartsLineChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Order Distribution Chart */}
+        <Card className="shadow-sm">
           <CardHeader>
             <CardTitle>Order Distribution</CardTitle>
             <CardDescription>Breakdown by order types</CardDescription>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <div className="text-center text-gray-500 h-full flex items-center justify-center border-2 border-dashed rounded-lg">
-              Pie Chart Visualization Placeholder
-            </div>
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsPieChart>
+                <Pie
+                  data={orderTypeData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                >
+                  {orderTypeData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => [value, 'Orders']} />
+                <Legend />
+              </RechartsPieChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2">
+        {/* User Growth Chart */}
+        <Card className="shadow-sm md:col-span-2">
           <CardHeader>
             <CardTitle>User Growth</CardTitle>
             <CardDescription>Growth by user type over the last 6 months</CardDescription>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <div className="text-center text-gray-500 h-full flex items-center justify-center border-2 border-dashed rounded-lg">
-              Bar Chart Visualization Placeholder
-            </div>
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsBarChart data={userGrowthData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="customers" fill="#8B5CF6" name="Customers" />
+                <Bar dataKey="vendors" fill="#D946EF" name="Vendors" />
+                <Bar dataKey="riders" fill="#F97316" name="Riders" />
+              </RechartsBarChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
 
       {/* Revenue Sources */}
-      <Card className="mt-6">
+      <Card className="mt-6 shadow-sm">
         <CardHeader>
           <CardTitle>Revenue Sources</CardTitle>
           <CardDescription>Breakdown of revenue by source</CardDescription>
@@ -173,7 +227,8 @@ const Reports = () => {
       <h2 className="text-2xl font-bold mt-8 mb-6">Available Reports</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card>
+        {/* Financial Reports Card */}
+        <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
           <CardHeader>
             <CardTitle>Financial Reports</CardTitle>
             <CardDescription>Revenue, commissions, refunds</CardDescription>
@@ -199,7 +254,8 @@ const Reports = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        {/* User Reports Card */}
+        <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
           <CardHeader>
             <CardTitle>User Reports</CardTitle>
             <CardDescription>Registrations, activity patterns</CardDescription>
@@ -225,7 +281,8 @@ const Reports = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Operations Reports Card */}
+        <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
           <CardHeader>
             <CardTitle>Operations Reports</CardTitle>
             <CardDescription>Orders, disputes, delivery metrics</CardDescription>

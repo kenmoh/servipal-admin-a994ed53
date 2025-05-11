@@ -1,4 +1,3 @@
-
 import Layout from '@/components/layout/Layout';
 import UserTable from '@/components/users/UserTable';
 import { Button } from '@/components/ui/button';
@@ -23,6 +22,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import AddUserForm from '@/components/users/AddUserForm';
 
 type UserType = 'customer' | 'vendor' | 'dispatch_company' | 'rider';
 type UserStatus = 'active' | 'pending' | 'suspended';
@@ -71,6 +78,7 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [openSheet, setOpenSheet] = useState(false);
   const [viewMode, setViewMode] = useState<'details' | 'orders' | 'wallet'>('details');
+  const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
   
   // Mock user data
   const users: User[] = [
@@ -285,7 +293,7 @@ const Users = () => {
 
   return (
     <Layout title="User Management">
-      <Card>
+      <Card className="shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Users</CardTitle>
@@ -312,7 +320,7 @@ const Users = () => {
             </Button>
             <Button 
               className="flex items-center gap-2"
-              onClick={handleAddUser}
+              onClick={() => setAddUserDialogOpen(true)}
             >
               <UserPlus size={16} />
               Add User
@@ -324,6 +332,20 @@ const Users = () => {
         </CardContent>
       </Card>
 
+      {/* Add User Dialog */}
+      <Dialog open={addUserDialogOpen} onOpenChange={setAddUserDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add New User</DialogTitle>
+            <DialogDescription>
+              Create a new user account in the system.
+            </DialogDescription>
+          </DialogHeader>
+          <AddUserForm onSuccess={() => setAddUserDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
+      {/* User Detail Sheet */}
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
         <SheetContent className="w-full sm:max-w-[540px] overflow-y-auto">
           <SheetHeader className="border-b pb-4 mb-4">
@@ -348,6 +370,7 @@ const Users = () => {
             </SheetDescription>
           </SheetHeader>
 
+          {/* User details view */}
           {selectedUser && viewMode === 'details' && (
             <div className="mt-6 space-y-6">
               <div className="space-y-2">
@@ -454,6 +477,7 @@ const Users = () => {
             </div>
           )}
 
+          {/* User orders view */}
           {selectedUser && viewMode === 'orders' && (
             <div className="mt-6 space-y-6">
               <div className="space-y-4">
@@ -503,6 +527,7 @@ const Users = () => {
             </div>
           )}
 
+          {/* User wallet view */}
           {selectedUser && viewMode === 'wallet' && (
             <div className="mt-6 space-y-6">
               {userWallets[selectedUser.id] ? (

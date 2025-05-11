@@ -1,7 +1,25 @@
 
 import { ReactNode } from 'react';
-import Sidebar from './Sidebar';
 import Header from './Header';
+import { 
+  SidebarProvider, 
+  Sidebar, 
+  SidebarContent, 
+  SidebarHeader, 
+  SidebarFooter, 
+  SidebarMenu, 
+  SidebarMenuItem, 
+  SidebarMenuButton
+} from '@/components/ui/sidebar';
+import { 
+  Home, Users, Package, 
+  Wallet, MessageSquare, 
+  Settings, FileKey, 
+  BarChart, Calendar, 
+  Menu 
+} from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,15 +27,69 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, title }: LayoutProps) => {
+  const location = useLocation();
+
+  const navItems = [
+    { to: '/', icon: Home, label: 'Dashboard' },
+    { to: '/users', icon: Users, label: 'User Management' },
+    { to: '/orders', icon: Package, label: 'Orders & Delivery' },
+    { to: '/wallet', icon: Wallet, label: 'Wallet & Transactions' },
+    { to: '/disputes', icon: Users, label: 'Dispute Resolution' },
+    { to: '/marketplace', icon: Calendar, label: 'Marketplace' },
+    { to: '/reports', icon: BarChart, label: 'Analytics & Reports' },
+    { to: '/messages', icon: MessageSquare, label: 'Messaging' },
+    { to: '/audit', icon: FileKey, label: 'Audit Logs' },
+    { to: '/settings', icon: Settings, label: 'Platform Settings' },
+  ];
+
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden transition-all duration-300 ml-0 md:ml-16 lg:ml-64">
-        <Header title={title} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-background">
-          {children}
-        </main>
-      </div>
+    <div className="min-h-screen flex w-full">
+      <SidebarProvider defaultOpen={true}>
+        <Sidebar>
+          <SidebarHeader className="flex items-center h-16 px-4">
+            <div className="font-semibold text-xl">Admin Portal</div>
+          </SidebarHeader>
+          
+          <SidebarContent>
+            <SidebarMenu>
+              {navItems.map((item) => {
+                const isActive = item.to === '/' 
+                  ? location.pathname === '/' 
+                  : location.pathname.startsWith(item.to);
+                
+                return (
+                  <SidebarMenuItem key={item.to}>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={isActive}
+                      tooltip={item.label}
+                    >
+                      <Link to={item.to}>
+                        <item.icon />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarContent>
+          
+          <SidebarFooter>
+            <div className="p-4 text-xs text-sidebar-foreground">
+              <div>Admin Portal v1.0</div>
+              <div className="mt-1">© 2025 Your Company</div>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
+        
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <Header title={title} />
+          <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-background">
+            {children}
+          </main>
+        </div>
+      </SidebarProvider>
     </div>
   );
 };

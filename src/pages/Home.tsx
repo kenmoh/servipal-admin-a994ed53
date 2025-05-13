@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,7 +14,7 @@ import {
   ArrowDown, 
   LogIn,
   Apple,
-  PlayStore
+  PlayCircle // Changed from PlayStore to PlayCircle which is available in lucide-react
 } from 'lucide-react';
 import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 
@@ -375,7 +376,7 @@ const Home = () => {
             {/* Download buttons for mobile apps with icons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Button size="lg" className="w-full sm:w-auto flex items-center gap-2">
-                <PlayStore size={20} />
+                <PlayCircle size={20} />
                 Download for Android
               </Button>
               <Button size="lg" variant="outline" className="w-full sm:w-auto flex items-center gap-2">

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,8 @@ import {
   WashingMachine, 
   Handshake, 
   ArrowDown, 
-  LogIn
+  LogIn,
+  Download
 } from 'lucide-react';
 import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 
@@ -58,7 +58,7 @@ const Home = () => {
       <header className="sticky top-0 z-30 w-full backdrop-blur-sm bg-background/80 border-b border-border">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <div className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
-            Nexus Platform
+            ServiPal
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <button 
@@ -132,7 +132,7 @@ const Home = () => {
                   <div className="w-2 h-2 rounded-full bg-red-500"></div>
                   <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
                   <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <div className="ml-2 text-xs text-muted-foreground">Nexus Platform</div>
+                  <div className="ml-2 text-xs text-muted-foreground">ServiPal</div>
                 </div>
                 <div className="absolute top-16 left-4 right-4 bottom-4 bg-card rounded-md shadow-lg p-4">
                   <div className="grid grid-cols-2 gap-4 h-full">
@@ -283,6 +283,36 @@ const Home = () => {
                 </ul>
               </div>
             </div>
+            
+            {/* Service 4 - P2P Marketplace (Added as requested) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h3 className="text-2xl font-bold mb-4">P2P Marketplace</h3>
+                <p className="text-muted-foreground mb-6">
+                  Connect directly with local service providers and sellers in a secure peer-to-peer marketplace.
+                </p>
+                <ul className="space-y-3">
+                  {["Verified providers", "Secure transactions", "Rating system", "Direct communication"].map((item, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1">
+                        <Check className="h-4 w-4 text-primary" />
+                      </div>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-500/50 to-primary/50 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="relative aspect-video rounded-xl overflow-hidden border">
+                    <div className="absolute inset-0 bg-gradient-to-bl from-green-500/20 via-background/80 to-background flex items-center justify-center">
+                      <Handshake className="w-24 h-24 text-primary/50" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -328,7 +358,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section with Download Buttons */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-500/5 -z-10"></div>
         <div className="absolute top-0 right-0 w-1/2 aspect-square rounded-full bg-gradient-to-br from-primary/10 to-transparent blur-3xl -z-10"></div>
@@ -340,6 +370,19 @@ const Home = () => {
             <p className="text-xl text-muted-foreground mb-8">
               Join thousands of users who are making their lives easier with our multi-service platform.
             </p>
+            
+            {/* Download buttons for mobile apps */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+              <Button size="lg" className="w-full sm:w-auto flex items-center gap-2">
+                <Download size={18} />
+                Download for Android
+              </Button>
+              <Button size="lg" variant="outline" className="w-full sm:w-auto flex items-center gap-2">
+                <Download size={18} />
+                Download for iOS
+              </Button>
+            </div>
+            
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Link to="/login">
                 <Button size="lg" className="w-full sm:w-auto">Admin Login</Button>
@@ -374,7 +417,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h3 className="font-bold mb-4">Nexus Platform</h3>
+              <h3 className="font-bold mb-4">ServiPal</h3>
               <ul className="space-y-2">
                 <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Careers</a></li>
@@ -411,7 +454,7 @@ const Home = () => {
             </div>
           </div>
           <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-muted-foreground">© 2025 Nexus Platform. All rights reserved.</p>
+            <p className="text-muted-foreground">© 2025 ServiPal. All rights reserved.</p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Twitter</a>
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">LinkedIn</a>

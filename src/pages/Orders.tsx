@@ -1,4 +1,3 @@
-
 import Layout from '@/components/layout/Layout';
 import OrdersTable from '@/components/orders/OrdersTable';
 import { Button } from '@/components/ui/button';
@@ -15,7 +14,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { Filter, Download, Map, Package, Clock } from 'lucide-react';
+import { Filter, Download, Package, Eye } from 'lucide-react';
 import { useState } from 'react';
 import { 
   Sheet, 
@@ -323,18 +322,13 @@ const Orders = () => {
                   )}
                   
                   <Button variant="outline" size="sm">
-                    <Map size={16} className="mr-2" />
-                    View Map
-                  </Button>
-                  
-                  <Button variant="outline" size="sm">
                     <Package size={16} className="mr-2" />
                     Order Details
                   </Button>
                   
                   <Button variant="outline" size="sm">
-                    <Clock size={16} className="mr-2" />
-                    Timeline
+                    <Eye size={16} className="mr-2" />
+                    View Items
                   </Button>
                 </div>
               </div>

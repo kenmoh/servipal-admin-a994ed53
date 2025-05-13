@@ -12,7 +12,8 @@ import {
   Handshake, 
   ArrowDown, 
   LogIn,
-  Download
+  Apple,
+  PlayStore
 } from 'lucide-react';
 import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 
@@ -371,23 +372,16 @@ const Home = () => {
               Join thousands of users who are making their lives easier with our multi-service platform.
             </p>
             
-            {/* Download buttons for mobile apps */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+            {/* Download buttons for mobile apps with icons */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Button size="lg" className="w-full sm:w-auto flex items-center gap-2">
-                <Download size={18} />
+                <PlayStore size={20} />
                 Download for Android
               </Button>
               <Button size="lg" variant="outline" className="w-full sm:w-auto flex items-center gap-2">
-                <Download size={18} />
+                <Apple size={20} />
                 Download for iOS
               </Button>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-              <Link to="/login">
-                <Button size="lg" className="w-full sm:w-auto">Admin Login</Button>
-              </Link>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">Contact Support</Button>
             </div>
             
             <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl border shadow-md">

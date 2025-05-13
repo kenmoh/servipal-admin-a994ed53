@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from 'lucide-react';
+import { toast } from "sonner";
+import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,35 +18,39 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulating a login request
     try {
-      // In a real app, you would make an API call here
+      // Simulating a login request
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Login attempt with:', { email, password });
+      toast.success("Login successful!");
       // Navigate to dashboard after successful login
-      window.location.href = '/';
+      window.location.href = '/dashboard';
     } catch (error) {
       console.error('Login failed:', error);
+      toast.error("Login failed. Please check your credentials.");
     } finally {
       setIsLoading(false);
     }
   };
   
   return (
-    <div className="min-h-screen flex flex-col bg-muted/30">
+    <div className="min-h-screen flex flex-col bg-background dark">
       <div className="container max-w-screen-xl mx-auto px-4 py-8">
-        <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-8">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          <span>Back to Home</span>
-        </Link>
+        <div className="flex justify-between items-center">
+          <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-foreground">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            <span>Back to Home</span>
+          </Link>
+          <ThemeSwitcher />
+        </div>
         
         <div className="flex flex-col items-center justify-center min-h-[80vh]">
           <div className="w-full max-w-md">
-            <Card className="border-none shadow-lg">
+            <Card className="border-none shadow-lg bg-card dark:bg-card/80 backdrop-blur-sm">
               <CardHeader className="space-y-1">
-                <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
+                <CardTitle className="text-2xl font-bold text-center">Admin Login</CardTitle>
                 <CardDescription className="text-center">
-                  Enter your email and password to access your account
+                  Enter your credentials to access the admin dashboard
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -59,6 +65,7 @@ const Login = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        className="bg-background/50"
                       />
                     </div>
                     <div className="grid gap-2">
@@ -78,6 +85,7 @@ const Login = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        className="bg-background/50"
                       />
                     </div>
                     <Button type="submit" className="w-full" disabled={isLoading}>
@@ -85,26 +93,11 @@ const Login = () => {
                     </Button>
                   </div>
                 </form>
-                <div className="relative my-6">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t"></div>
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">or continue with</span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="w-full">Google</Button>
-                  <Button variant="outline" className="w-full">GitHub</Button>
-                </div>
               </CardContent>
-              <CardFooter className="flex flex-col">
-                <div className="text-center text-sm text-muted-foreground mt-2">
-                  Don't have an account?{' '}
-                  <Link to="/register" className="text-primary hover:underline">
-                    Register
-                  </Link>
-                </div>
+              <CardFooter>
+                <p className="text-xs text-center w-full text-muted-foreground">
+                  This is an admin-only platform. Unauthorized access is prohibited.
+                </p>
               </CardFooter>
             </Card>
           </div>

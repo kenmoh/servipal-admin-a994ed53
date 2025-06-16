@@ -71,45 +71,47 @@ const WalletOverview = ({
       </div>
 
       <h2 className="text-lg font-semibold">Recent Transactions</h2>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>User</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Date</TableHead>
-            {onViewWallet && <TableHead className="text-right">Actions</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {transactions.slice(0, 5).map((transaction) => (
-            <TableRow key={transaction.id}>
-              <TableCell className="font-medium">{transaction.id}</TableCell>
-              <TableCell>{transaction.user}</TableCell>
-              <TableCell>{transaction.type}</TableCell>
-              <TableCell>{transaction.amount}</TableCell>
-              <TableCell>
-                <StatusBadge status={transaction.status} />
-              </TableCell>
-              <TableCell>{transaction.date}</TableCell>
-              {onViewWallet && (
-                <TableCell className="text-right">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => onViewWallet(transaction.user, transaction.type)}
-                    title="View wallet details"
-                  >
-                    <Eye size={16} />
-                  </Button>
-                </TableCell>
-              )}
+      <div className="overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>User</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Date</TableHead>
+              {onViewWallet && <TableHead className="text-right">Actions</TableHead>}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {transactions.slice(0, 5).map((transaction) => (
+              <TableRow key={transaction.id}>
+                <TableCell className="font-medium">{transaction.id}</TableCell>
+                <TableCell>{transaction.user}</TableCell>
+                <TableCell>{transaction.type}</TableCell>
+                <TableCell>{transaction.amount}</TableCell>
+                <TableCell>
+                  <StatusBadge status={transaction.status} />
+                </TableCell>
+                <TableCell>{transaction.date}</TableCell>
+                {onViewWallet && (
+                  <TableCell className="text-right">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => onViewWallet(transaction.user, transaction.type)}
+                      title="View wallet details"
+                    >
+                      <Eye size={16} />
+                    </Button>
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

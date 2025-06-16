@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
   Table,
@@ -164,8 +163,8 @@ const DataTable = ({
         </div>
       )}
 
-      <div className="rounded-md border overflow-hidden">
-        <Table className="compact-table">
+      <div className="overflow-hidden">
+        <Table>
           <TableHeader>
             <TableRow>
               {columns.map((column) => (

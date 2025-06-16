@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Filter, Download, UserPlus, Eye, Edit, ArrowLeft, User } from 'lucide-react';
+import { Filter, Download, UserPlus, Eye, Edit, ArrowLeft, User, Package } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose, SheetFooter } from '@/components/ui/sheet';
 import { useState } from 'react';
 import StatusBadge from '@/components/common/StatusBadge';
@@ -93,10 +93,20 @@ interface WalletData {
   pendingWithdrawals: string;
 }
 
+interface MarketplaceItem {
+  id: string;
+  seller: string;
+  name: string;
+  price: string;
+  category: string;
+  status: 'active' | 'pending' | 'sold' | 'removed';
+  dateListed: string;
+}
+
 const Users = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [openSheet, setOpenSheet] = useState(false);
-  const [viewMode, setViewMode] = useState<'details' | 'orders' | 'wallet'>('details');
+  const [viewMode, setViewMode] = useState<'details' | 'orders' | 'wallet' | 'listings'>('details');
   const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -187,7 +197,6 @@ const Users = () => {
     }
   };
 
-  // Mock dispatch companies
   const dispatchCompanies: Record<string, DispatchCompany> = {
     'DSP-001': {
       id: 'DSP-001',
@@ -304,6 +313,41 @@ const Users = () => {
     ]
   };
 
+  // Mock marketplace listings for users
+  const userListings: Record<string, MarketplaceItem[]> = {
+    'USR-001': [
+      {
+        id: 'ITM-001',
+        seller: 'John Doe',
+        name: 'Vintage Camera',
+        price: '$199.99',
+        category: 'Electronics',
+        status: 'active',
+        dateListed: '2023-06-10',
+      },
+      {
+        id: 'ITM-005',
+        seller: 'John Doe',
+        name: 'Old Bicycle',
+        price: '$80.00',
+        category: 'Sports',
+        status: 'sold',
+        dateListed: '2023-05-20',
+      }
+    ],
+    'USR-006': [
+      {
+        id: 'ITM-003',
+        seller: 'Sarah Johnson',
+        name: 'Designer Handbag',
+        price: '$150.00',
+        category: 'Fashion',
+        status: 'active',
+        dateListed: '2023-06-15',
+      }
+    ]
+  };
+
   const viewUserDetails = (user: User) => {
     setSelectedUser(user);
     setViewMode('details');
@@ -319,6 +363,12 @@ const Users = () => {
   const viewUserWallet = () => {
     if (selectedUser) {
       setViewMode('wallet');
+    }
+  };
+
+  const viewUserListings = () => {
+    if (selectedUser) {
+      setViewMode('listings');
     }
   };
 
@@ -356,6 +406,17 @@ const Users = () => {
       title: "Action Triggered",
       description: `${action} action for ${selectedUser?.name}`,
     });
+  };
+
+  // Function to map marketplace status to StatusBadge-compatible status
+  const getStatusBadgeVariant = (status: string): "pending" | "success" | "error" | "warning" => {
+    switch(status) {
+      case 'active': return 'success';
+      case 'pending': return 'pending';
+      case 'sold': return 'warning';
+      case 'removed': return 'error';
+      default: return 'pending';
+    }
   };
 
   return (
@@ -449,6 +510,7 @@ const Users = () => {
               {viewMode === 'details' && "User Details"}
               {viewMode === 'orders' && "User Orders"}
               {viewMode === 'wallet' && "User Wallet"}
+              {viewMode === 'listings' && "User Listings"}
             </SheetTitle>
             <SheetDescription>
               {selectedUser?.id} - {selectedUser?.type.replace('_', ' ')}
@@ -550,6 +612,14 @@ const Users = () => {
                     onClick={viewUserWallet}
                   >
                     <span>View Wallet</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="justify-start"
+                    onClick={viewUserListings}
+                  >
+                    <Package className="mr-2 h-4 w-4" />
+                    <span>View Listings</span>
                   </Button>
                 </div>
               </div>
@@ -682,6 +752,57 @@ const Users = () => {
                   <p className="text-muted-foreground">No wallet information found for this user</p>
                 </div>
               )}
+              
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button variant="outline" className="w-full sm:w-auto">Close</Button>
+                </SheetClose>
+              </SheetFooter>
+            </div>
+          )}
+
+          {/* User listings view */}
+          {selectedUser && viewMode === 'listings' && (
+            <div className="mt-6 space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-muted-foreground">Marketplace Listings</h3>
+                
+                {userListings[selectedUser.id] ? (
+                  <div className="rounded-md border overflow-hidden">
+                    <Table className="w-full">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[100px]">Item ID</TableHead>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Price</TableHead>
+                          <TableHead>Category</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Date Listed</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {userListings[selectedUser.id].map((item) => (
+                          <TableRow key={item.id}>
+                            <TableCell className="font-medium">{item.id}</TableCell>
+                            <TableCell>{item.name}</TableCell>
+                            <TableCell>{item.price}</TableCell>
+                            <TableCell>{item.category}</TableCell>
+                            <TableCell>
+                              <StatusBadge status={getStatusBadgeVariant(item.status)} />
+                            </TableCell>
+                            <TableCell>{item.dateListed}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                ) : (
+                  <div className="py-8 text-center">
+                    <Package className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground">No marketplace listings found for this user</p>
+                  </div>
+                )}
+              </div>
               
               <SheetFooter>
                 <SheetClose asChild>

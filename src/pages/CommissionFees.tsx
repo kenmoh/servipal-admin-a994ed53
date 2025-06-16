@@ -26,7 +26,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { DollarSign, Percent, TrendingUp, Edit } from 'lucide-react';
+import { DollarSign, Percent, TrendingUp, Edit, Crown } from 'lucide-react';
 
 const CommissionFees = () => {
   const [commissionRates] = useState([
@@ -112,7 +112,7 @@ const CommissionFees = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardDescription>Vendor Tiers</CardDescription>
-              <Badge size={16} />
+              <Crown size={16} />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">4</div>

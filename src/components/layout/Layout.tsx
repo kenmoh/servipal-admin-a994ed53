@@ -19,7 +19,10 @@ import {
   Home, Users, Package, 
   Wallet, MessageSquare, 
   Settings, FileKey, 
-  BarChart, Calendar
+  BarChart, Calendar,
+  MapPin, DollarSign,
+  FileText, Shield,
+  Mail, Crown, UserCheck
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -31,13 +34,21 @@ const Layout = ({ children, title }: LayoutProps) => {
   const location = useLocation();
 
   const navItems = [
-    { to: '/', icon: Home, label: 'Dashboard' },
+    { to: '/dashboard', icon: Home, label: 'Dashboard' },
     { to: '/users', icon: Users, label: 'User Management' },
     { to: '/orders', icon: Package, label: 'Orders & Delivery' },
     { to: '/wallet', icon: Wallet, label: 'Wallet & Transactions' },
     { to: '/disputes', icon: Users, label: 'Dispute Resolution' },
     { to: '/marketplace', icon: Calendar, label: 'Marketplace' },
-    { to: '/reports', icon: BarChart, label: 'Analytics & Reports' },
+    { to: '/analytics', icon: BarChart, label: 'Analytics & BI' },
+    { to: '/service-areas', icon: MapPin, label: 'Service Areas' },
+    { to: '/commission-fees', icon: DollarSign, label: 'Commission & Fees' },
+    { to: '/content-management', icon: FileText, label: 'Content Management' },
+    { to: '/quality-safety', icon: Shield, label: 'Quality & Safety' },
+    { to: '/communications', icon: Mail, label: 'Communications' },
+    { to: '/role-management', icon: Crown, label: 'Role Management' },
+    { to: '/vendor-onboarding', icon: UserCheck, label: 'Vendor Onboarding' },
+    { to: '/reports', icon: BarChart, label: 'Reports' },
     { to: '/messages', icon: MessageSquare, label: 'Messaging' },
     { to: '/audit', icon: FileKey, label: 'Audit Logs' },
     { to: '/settings', icon: Settings, label: 'Platform Settings' },
@@ -55,8 +66,8 @@ const Layout = ({ children, title }: LayoutProps) => {
           <SidebarContent>
             <SidebarMenu>
               {navItems.map((item) => {
-                const isActive = item.to === '/' 
-                  ? location.pathname === '/' 
+                const isActive = item.to === '/dashboard' 
+                  ? location.pathname === '/' || location.pathname === '/dashboard'
                   : location.pathname.startsWith(item.to);
                 
                 return (

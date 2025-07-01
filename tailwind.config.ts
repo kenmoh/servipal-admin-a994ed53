@@ -75,17 +75,24 @@ export default {
 					DEFAULT: '#3B82F6',
 					foreground: '#FFFFFF'
 				},
-				// New status-specific colors
+				// Brand colors inspired by the logo
+				brand: {
+					orange: '#FF6B35', // Vibrant orange from logo
+					blue: '#1E40AF', // Deep blue from logo
+					'orange-light': '#FF8A65',
+					'blue-light': '#3B82F6',
+				},
+				// Status-specific colors updated with brand inspiration
 				open: {
-					DEFAULT: '#6366F1', // Indigo
+					DEFAULT: '#1E40AF', // Brand blue
 					foreground: '#FFFFFF'
 				},
 				in_progress: {
-					DEFAULT: '#8B5CF6', // Purple
+					DEFAULT: '#FF6B35', // Brand orange
 					foreground: '#FFFFFF'
 				},
 				resolved: {
-					DEFAULT: '#10B981', // Green (reused)
+					DEFAULT: '#10B981', // Green
 					foreground: '#FFFFFF'
 				},
 				rejected: {
@@ -93,7 +100,7 @@ export default {
 					foreground: '#FFFFFF'
 				},
 				sold: {
-					DEFAULT: '#6366F1', // Indigo
+					DEFAULT: '#1E40AF', // Brand blue
 					foreground: '#FFFFFF'
 				},
 				removed: {

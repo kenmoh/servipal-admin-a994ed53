@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,7 +13,7 @@ import {
   ArrowDown, 
   LogIn,
   Apple,
-  PlayCircle // Changed from PlayStore to PlayCircle which is available in lucide-react
+  PlayCircle
 } from 'lucide-react';
 import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 
@@ -65,7 +64,7 @@ const Home = () => {
               alt="ServiPal Logo" 
               className="h-10 w-10"
             />
-            <div className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
+            <div className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-brand-orange to-brand-blue">
               ServiPal
             </div>
           </div>
@@ -103,12 +102,12 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background -z-10"></div>
-        <div className="absolute top-1/2 right-0 w-1/2 aspect-square rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-3xl -z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/10 via-background to-brand-blue/5 -z-10"></div>
+        <div className="absolute top-1/2 right-0 w-1/2 aspect-square rounded-full bg-gradient-to-br from-brand-orange/20 via-primary/10 to-transparent blur-3xl -z-10"></div>
         <div className="container mx-auto px-4 py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h1 className="font-extrabold text-4xl md:text-5xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
+              <h1 className="font-extrabold text-4xl md:text-5xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-brand-blue via-primary to-brand-orange">
                 Your All-In-One Service Platform
               </h1>
               <p className="text-xl text-muted-foreground">
@@ -116,26 +115,26 @@ const Home = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <button onClick={() => scrollToSection('services')} className="group">
-                  <Button size="lg" className="w-full group">
+                  <Button size="lg" className="w-full group bg-gradient-to-r from-brand-blue to-primary hover:from-brand-blue/90 hover:to-primary/90">
                     Explore Services <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </button>
                 <button onClick={() => scrollToSection('how-it-works')}>
-                  <Button size="lg" variant="outline" className="w-full">
+                  <Button size="lg" variant="outline" className="w-full border-primary/20 hover:bg-brand-orange/10">
                     Learn More
                   </Button>
                 </button>
               </div>
               <button 
                 onClick={() => scrollToSection('services')}
-                className="flex items-center text-muted-foreground hover:text-foreground transition-all gap-2 mt-8 mx-auto md:mx-0"
+                className="flex items-center text-muted-foreground hover:text-primary transition-all gap-2 mt-8 mx-auto md:mx-0"
               >
                 <span>Scroll to discover</span>
                 <ArrowDown className="animate-bounce" />
               </button>
             </div>
             <div className="relative">
-              <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-primary to-purple-500 opacity-70 blur-lg"></div>
+              <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-brand-blue via-primary to-brand-orange opacity-70 blur-lg"></div>
               <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-br from-background/80 to-muted border border-muted">
                 <div className="absolute top-4 left-4 right-4 h-8 rounded-md bg-muted flex items-center px-4 space-x-2">
                   <div className="w-2 h-2 rounded-full bg-red-500"></div>
@@ -169,10 +168,10 @@ const Home = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-muted/30">
+      <section id="services" className="py-20 bg-gradient-to-br from-brand-orange/5 to-brand-blue/5">
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Our Services</h2>
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-blue to-brand-orange">Our Services</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               We bring together essential services on one powerful platform
             </p>
@@ -180,8 +179,8 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="bg-background/60 backdrop-blur-sm rounded-lg p-6 shadow-md hover-card border">
-                <div className="bg-primary/10 p-3 rounded-full w-fit mb-4">
+              <div key={index} className="bg-background/60 backdrop-blur-sm rounded-lg p-6 shadow-md hover-card border border-primary/10 hover:border-brand-orange/30 transition-all">
+                <div className="bg-gradient-to-br from-brand-orange/10 to-brand-blue/10 p-3 rounded-full w-fit mb-4">
                   {service.icon}
                 </div>
                 <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
@@ -196,7 +195,7 @@ const Home = () => {
       <section id="how-it-works" className="py-20">
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">How It Works</h2>
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-orange to-brand-blue">How It Works</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Simple, fast and efficient - here's how our platform brings services to your doorstep
             </p>
@@ -207,7 +206,7 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1">
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 to-purple-500/50 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/50 to-brand-orange/50 opacity-70 blur-xl rounded-xl"></div>
                   <div className="relative aspect-video rounded-xl overflow-hidden border">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background/80 to-background flex items-center justify-center">
                       <Package className="w-24 h-24 text-primary/50" />
@@ -253,7 +252,7 @@ const Home = () => {
               </div>
               <div>
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/50 to-primary/50 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/50 to-brand-blue/50 opacity-70 blur-xl rounded-xl"></div>
                   <div className="relative aspect-video rounded-xl overflow-hidden border">
                     <div className="absolute inset-0 bg-gradient-to-bl from-purple-500/20 via-background/80 to-background flex items-center justify-center">
                       <Utensils className="w-24 h-24 text-primary/50" />
@@ -267,7 +266,7 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1">
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 to-blue-500/50 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/50 to-primary/50 opacity-70 blur-xl rounded-xl"></div>
                   <div className="relative aspect-video rounded-xl overflow-hidden border">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-background/80 to-background flex items-center justify-center">
                       <WashingMachine className="w-24 h-24 text-primary/50" />
@@ -293,7 +292,7 @@ const Home = () => {
               </div>
             </div>
             
-            {/* Service 4 - P2P Marketplace (Added as requested) */}
+            {/* Service 4 - P2P Marketplace */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
                 <h3 className="text-2xl font-bold mb-4">P2P Marketplace</h3>
@@ -313,7 +312,7 @@ const Home = () => {
               </div>
               <div>
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-green-500/50 to-primary/50 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/50 to-brand-blue/50 opacity-70 blur-xl rounded-xl"></div>
                   <div className="relative aspect-video rounded-xl overflow-hidden border">
                     <div className="absolute inset-0 bg-gradient-to-bl from-green-500/20 via-background/80 to-background flex items-center justify-center">
                       <Handshake className="w-24 h-24 text-primary/50" />
@@ -327,10 +326,10 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 bg-muted/30">
+      <section id="testimonials" className="py-20 bg-gradient-to-br from-brand-blue/5 to-brand-orange/5">
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">What Our Customers Say</h2>
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-blue to-brand-orange">What Our Customers Say</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Real experiences from people who use our services every day
             </p>
@@ -369,13 +368,13 @@ const Home = () => {
 
       {/* CTA Section with Download Buttons */}
       <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-500/5 -z-10"></div>
-        <div className="absolute top-0 right-0 w-1/2 aspect-square rounded-full bg-gradient-to-br from-primary/10 to-transparent blur-3xl -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 aspect-square rounded-full bg-gradient-to-tr from-purple-500/10 to-transparent blur-3xl -z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-brand-blue/5 -z-10"></div>
+        <div className="absolute top-0 right-0 w-1/2 aspect-square rounded-full bg-gradient-to-br from-brand-orange/10 to-transparent blur-3xl -z-10"></div>
+        <div className="absolute bottom-0 left-0 w-1/2 aspect-square rounded-full bg-gradient-to-tr from-brand-blue/10 to-transparent blur-3xl -z-10"></div>
         
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6">Ready to Simplify Your Life?</h2>
+            <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-brand-blue to-brand-orange">Ready to Simplify Your Life?</h2>
             <p className="text-xl text-muted-foreground mb-8">
               Join thousands of users who are making their lives easier with our multi-service platform.
             </p>
@@ -392,7 +391,7 @@ const Home = () => {
               </Button>
             </div>
             
-            <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl border shadow-md">
+            <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl border border-primary/10 shadow-md">
               <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Input 

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -135,7 +136,7 @@ const Home = () => {
             </div>
             <div className="relative">
               <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-brand-blue via-primary to-brand-orange opacity-70 blur-lg"></div>
-              <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-br from-background/80 to-muted border border-muted">
+              <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-br from-background/80 to-muted shadow-2xl">
                 <div className="absolute top-4 left-4 right-4 h-8 rounded-md bg-muted flex items-center px-4 space-x-2">
                   <div className="w-2 h-2 rounded-full bg-red-500"></div>
                   <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
@@ -145,7 +146,7 @@ const Home = () => {
                 <div className="absolute top-16 left-4 right-4 bottom-4 bg-card rounded-md shadow-lg p-4">
                   <div className="grid grid-cols-2 gap-4 h-full">
                     <div className="space-y-4">
-                      <div className="h-24 bg-primary/5 rounded-md border border-primary/10 animate-pulse"></div>
+                      <div className="h-24 bg-primary/5 rounded-md shadow-sm animate-pulse"></div>
                       <div className="space-y-2">
                         <div className="h-4 bg-muted rounded-md w-3/4"></div>
                         <div className="h-4 bg-muted rounded-md"></div>
@@ -153,7 +154,7 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="space-y-4">
-                      <div className="h-32 bg-primary/10 rounded-md border border-primary/20 animate-pulse delay-300"></div>
+                      <div className="h-32 bg-primary/10 rounded-md shadow-sm animate-pulse delay-300"></div>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="h-16 bg-muted rounded-md"></div>
                         <div className="h-16 bg-muted rounded-md"></div>
@@ -179,12 +180,15 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="bg-background/60 backdrop-blur-sm rounded-lg p-6 shadow-md hover-card border border-primary/10 hover:border-brand-orange/30 transition-all">
-                <div className="bg-gradient-to-br from-brand-orange/10 to-brand-blue/10 p-3 rounded-full w-fit mb-4">
-                  {service.icon}
+              <div key={index} className="relative bg-background/60 backdrop-blur-sm rounded-lg p-6 shadow-xl hover-card transition-all group">
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-orange/10 via-transparent to-brand-blue/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative">
+                  <div className="bg-gradient-to-br from-brand-orange/10 to-brand-blue/10 p-3 rounded-full w-fit mb-4 shadow-md">
+                    {service.icon}
+                  </div>
+                  <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
+                  <p className="text-muted-foreground">{service.description}</p>
                 </div>
-                <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
-                <p className="text-muted-foreground">{service.description}</p>
               </div>
             ))}
           </div>
@@ -207,7 +211,7 @@ const Home = () => {
               <div className="order-2 md:order-1">
                 <div className="relative">
                   <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/50 to-brand-orange/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden border">
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background/80 to-background flex items-center justify-center">
                       <Package className="w-24 h-24 text-primary/50" />
                     </div>
@@ -222,7 +226,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Real-time tracking", "Secure handling", "Flexible delivery options", "Proof of delivery"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -242,7 +246,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Wide restaurant selection", "Special offers and discounts", "Contactless delivery", "Easy reordering"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -253,7 +257,7 @@ const Home = () => {
               <div>
                 <div className="relative">
                   <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/50 to-brand-blue/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden border">
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
                     <div className="absolute inset-0 bg-gradient-to-bl from-purple-500/20 via-background/80 to-background flex items-center justify-center">
                       <Utensils className="w-24 h-24 text-primary/50" />
                     </div>
@@ -267,7 +271,7 @@ const Home = () => {
               <div className="order-2 md:order-1">
                 <div className="relative">
                   <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/50 to-primary/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden border">
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-background/80 to-background flex items-center justify-center">
                       <WashingMachine className="w-24 h-24 text-primary/50" />
                     </div>
@@ -282,7 +286,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Professional cleaning", "Fabric-specific care", "Scheduled pickups", "Fast turnaround"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -302,7 +306,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Verified providers", "Secure transactions", "Rating system", "Direct communication"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -313,7 +317,7 @@ const Home = () => {
               <div>
                 <div className="relative">
                   <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/50 to-brand-blue/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden border">
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
                     <div className="absolute inset-0 bg-gradient-to-bl from-green-500/20 via-background/80 to-background flex items-center justify-center">
                       <Handshake className="w-24 h-24 text-primary/50" />
                     </div>
@@ -353,12 +357,15 @@ const Home = () => {
                 role: "Business Owner"
               }
             ].map((testimonial, idx) => (
-              <div key={idx} className="bg-background/60 backdrop-blur-sm rounded-lg p-8 border shadow-sm">
-                <div className="text-4xl font-serif text-primary">"</div>
-                <p className="my-4 italic">{testimonial.quote}</p>
-                <div className="mt-6">
-                  <p className="font-semibold">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+              <div key={idx} className="relative bg-background/60 backdrop-blur-sm rounded-lg p-8 shadow-xl group">
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative">
+                  <div className="text-4xl font-serif text-primary">"</div>
+                  <p className="my-4 italic">{testimonial.quote}</p>
+                  <div className="mt-6">
+                    <p className="font-semibold">{testimonial.author}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -391,23 +398,26 @@ const Home = () => {
               </Button>
             </div>
             
-            <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl border border-primary/10 shadow-md">
-              <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Input 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)} 
-                  className="flex-grow bg-background/50"
-                />
-                <Button className="whitespace-nowrap">
-                  Subscribe
-                </Button>
+            <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl shadow-xl relative group">
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-orange/10 via-transparent to-brand-blue/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative">
+                <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    className="flex-grow bg-background/50"
+                  />
+                  <Button className="whitespace-nowrap">
+                    Subscribe
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  By subscribing, you agree to our Privacy Policy and receive updates from our team.
+                </p>
               </div>
-              <p className="text-xs text-muted-foreground mt-4">
-                By subscribing, you agree to our Privacy Policy and receive updates from our team.
-              </p>
             </div>
           </div>
         </div>

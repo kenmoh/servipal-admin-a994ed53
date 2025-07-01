@@ -59,8 +59,15 @@ const Home = () => {
       {/* Header */}
       <header className="sticky top-0 z-30 w-full backdrop-blur-sm bg-background/80 border-b border-border">
         <div className="container mx-auto flex h-16 items-center justify-between">
-          <div className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
-            ServiPal
+          <div className="flex items-center gap-3">
+            <img 
+              src="/lovable-uploads/e1e93d24-9824-4a19-8628-f3d8a4cef808.png" 
+              alt="ServiPal Logo" 
+              className="h-10 w-10"
+            />
+            <div className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
+              ServiPal
+            </div>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <button 

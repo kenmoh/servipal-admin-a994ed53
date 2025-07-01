@@ -163,7 +163,7 @@ const Home = () => {
 
       {/* Services Section */}
       <section id="services" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Our Services</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -187,7 +187,7 @@ const Home = () => {
 
       {/* How It Works */}
       <section id="how-it-works" className="py-20">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">How It Works</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -321,7 +321,7 @@ const Home = () => {
 
       {/* Testimonials */}
       <section id="testimonials" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">What Our Customers Say</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -366,7 +366,7 @@ const Home = () => {
         <div className="absolute top-0 right-0 w-1/2 aspect-square rounded-full bg-gradient-to-br from-primary/10 to-transparent blur-3xl -z-10"></div>
         <div className="absolute bottom-0 left-0 w-1/2 aspect-square rounded-full bg-gradient-to-tr from-purple-500/10 to-transparent blur-3xl -z-10"></div>
         
-        <div className="container mx-auto px-4">
+        <div className="max-w-[75vw] mx-auto px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6">Ready to Simplify Your Life?</h2>
             <p className="text-xl text-muted-foreground mb-8">
@@ -409,7 +409,7 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="bg-muted/50 py-12">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[75vw] mx-auto px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div>
               <h3 className="font-bold mb-4">ServiPal</h3>

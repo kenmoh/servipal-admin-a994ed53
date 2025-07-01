@@ -14,7 +14,11 @@ import {
   ArrowDown, 
   LogIn,
   Apple,
-  PlayCircle
+  PlayCircle,
+  Users,
+  MessageCircle,
+  Star,
+  Clock
 } from 'lucide-react';
 import { ThemeSwitcher } from '@/components/ui/theme-switcher';
 
@@ -57,7 +61,7 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col dark">
       {/* Header */}
-      <header className="sticky top-0 z-30 w-full backdrop-blur-sm bg-background/80 border-b border-border">
+      <header className="sticky top-0 z-30 w-full backdrop-blur-sm bg-background/80 border-b border-border/50">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             <img 
@@ -136,28 +140,72 @@ const Home = () => {
             </div>
             <div className="relative">
               <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-brand-blue via-primary to-brand-orange opacity-70 blur-lg"></div>
-              <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-br from-background/80 to-muted shadow-2xl">
-                <div className="absolute top-4 left-4 right-4 h-8 rounded-md bg-muted flex items-center px-4 space-x-2">
+              <div className="relative h-[400px] rounded-xl overflow-hidden bg-gradient-to-br from-background/80 to-muted/50 shadow-2xl border border-border/20">
+                <div className="absolute top-4 left-4 right-4 h-8 rounded-md bg-muted/80 flex items-center px-4 space-x-2 shadow-sm">
                   <div className="w-2 h-2 rounded-full bg-red-500"></div>
                   <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
                   <div className="w-2 h-2 rounded-full bg-green-500"></div>
                   <div className="ml-2 text-xs text-muted-foreground">ServiPal</div>
                 </div>
-                <div className="absolute top-16 left-4 right-4 bottom-4 bg-card rounded-md shadow-lg p-4">
-                  <div className="grid grid-cols-2 gap-4 h-full">
-                    <div className="space-y-4">
-                      <div className="h-24 bg-primary/5 rounded-md shadow-sm animate-pulse"></div>
-                      <div className="space-y-2">
-                        <div className="h-4 bg-muted rounded-md w-3/4"></div>
-                        <div className="h-4 bg-muted rounded-md"></div>
-                        <div className="h-4 bg-muted rounded-md w-1/2"></div>
+                <div className="absolute top-16 left-4 right-4 bottom-4 bg-card/80 backdrop-blur-sm rounded-md shadow-lg p-4 border border-border/30">
+                  <div className="space-y-4 h-full">
+                    {/* Header with connecting people */}
+                    <div className="flex items-center justify-between p-3 bg-gradient-to-r from-primary/10 to-brand-orange/10 rounded-lg border border-border/20">
+                      <div className="flex items-center gap-2">
+                        <Users className="h-5 w-5 text-primary" />
+                        <span className="text-sm font-medium">Connecting People</span>
+                      </div>
+                      <div className="flex -space-x-2">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white"></div>
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-white"></div>
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white"></div>
                       </div>
                     </div>
-                    <div className="space-y-4">
-                      <div className="h-32 bg-primary/10 rounded-md shadow-sm animate-pulse delay-300"></div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="h-16 bg-muted rounded-md"></div>
-                        <div className="h-16 bg-muted rounded-md"></div>
+                    
+                    {/* Service connections */}
+                    <div className="grid grid-cols-2 gap-3 flex-1">
+                      <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-3 rounded-lg border border-blue-200/50 dark:border-blue-800/30">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Package className="h-4 w-4 text-blue-600" />
+                          <span className="text-xs font-medium">Delivery</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-3 w-3 text-blue-500" />
+                          <span className="text-xs text-muted-foreground">15 min</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-3 rounded-lg border border-orange-200/50 dark:border-orange-800/30">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Utensils className="h-4 w-4 text-orange-600" />
+                          <span className="text-xs font-medium">Food</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Star className="h-3 w-3 text-orange-500 fill-current" />
+                          <span className="text-xs text-muted-foreground">4.9</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-3 rounded-lg border border-green-200/50 dark:border-green-800/30">
+                        <div className="flex items-center gap-2 mb-2">
+                          <WashingMachine className="h-4 w-4 text-green-600" />
+                          <span className="text-xs font-medium">Laundry</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <MessageCircle className="h-3 w-3 text-green-500" />
+                          <span className="text-xs text-muted-foreground">Chat</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-3 rounded-lg border border-purple-200/50 dark:border-purple-800/30">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Handshake className="h-4 w-4 text-purple-600" />
+                          <span className="text-xs font-medium">P2P</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Users className="h-3 w-3 text-purple-500" />
+                          <span className="text-xs text-muted-foreground">Active</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -180,10 +228,10 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="relative bg-background/60 backdrop-blur-sm rounded-lg p-6 shadow-xl hover-card transition-all group">
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-orange/10 via-transparent to-brand-blue/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div key={index} className="relative bg-background/60 backdrop-blur-sm rounded-lg p-6 shadow-lg hover-card transition-all group border border-border/30">
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative">
-                  <div className="bg-gradient-to-br from-brand-orange/10 to-brand-blue/10 p-3 rounded-full w-fit mb-4 shadow-md">
+                  <div className="bg-gradient-to-br from-brand-orange/10 to-brand-blue/10 p-3 rounded-full w-fit mb-4 shadow-sm border border-border/20">
                     {service.icon}
                   </div>
                   <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
@@ -210,8 +258,8 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1">
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/50 to-brand-orange/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/30 to-brand-orange/30 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/30">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background/80 to-background flex items-center justify-center">
                       <Package className="w-24 h-24 text-primary/50" />
                     </div>
@@ -226,7 +274,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Real-time tracking", "Secure handling", "Flexible delivery options", "Proof of delivery"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm border border-border/20">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -246,7 +294,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Wide restaurant selection", "Special offers and discounts", "Contactless delivery", "Easy reordering"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm border border-border/20">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -256,8 +304,8 @@ const Home = () => {
               </div>
               <div>
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/50 to-brand-blue/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/30 to-brand-blue/30 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/30">
                     <div className="absolute inset-0 bg-gradient-to-bl from-purple-500/20 via-background/80 to-background flex items-center justify-center">
                       <Utensils className="w-24 h-24 text-primary/50" />
                     </div>
@@ -270,8 +318,8 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1">
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/50 to-primary/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue/30 to-primary/30 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/30">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-background/80 to-background flex items-center justify-center">
                       <WashingMachine className="w-24 h-24 text-primary/50" />
                     </div>
@@ -286,7 +334,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Professional cleaning", "Fabric-specific care", "Scheduled pickups", "Fast turnaround"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm border border-border/20">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -306,7 +354,7 @@ const Home = () => {
                 <ul className="space-y-3">
                   {["Verified providers", "Secure transactions", "Rating system", "Direct communication"].map((item, idx) => (
                     <li key={idx} className="flex items-start">
-                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm">
+                      <div className="mr-3 mt-1 bg-primary/20 rounded-full p-1 shadow-sm border border-border/20">
                         <Check className="h-4 w-4 text-primary" />
                       </div>
                       <span>{item}</span>
@@ -316,8 +364,8 @@ const Home = () => {
               </div>
               <div>
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/50 to-brand-blue/50 opacity-70 blur-xl rounded-xl"></div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange/30 to-brand-blue/30 opacity-70 blur-xl rounded-xl"></div>
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/30">
                     <div className="absolute inset-0 bg-gradient-to-bl from-green-500/20 via-background/80 to-background flex items-center justify-center">
                       <Handshake className="w-24 h-24 text-primary/50" />
                     </div>
@@ -357,7 +405,7 @@ const Home = () => {
                 role: "Business Owner"
               }
             ].map((testimonial, idx) => (
-              <div key={idx} className="relative bg-background/60 backdrop-blur-sm rounded-lg p-8 shadow-xl group">
+              <div key={idx} className="relative bg-background/60 backdrop-blur-sm rounded-lg p-8 shadow-lg group border border-border/30">
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative">
                   <div className="text-4xl font-serif text-primary">"</div>
@@ -392,14 +440,14 @@ const Home = () => {
                 <PlayCircle size={20} />
                 Download for Android
               </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto flex items-center gap-2">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto flex items-center gap-2 border-border/30">
                 <Apple size={20} />
                 Download for iOS
               </Button>
             </div>
             
-            <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl shadow-xl relative group">
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-orange/10 via-transparent to-brand-blue/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl shadow-lg relative group border border-border/30">
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <div className="relative">
                 <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -408,7 +456,7 @@ const Home = () => {
                     placeholder="Enter your email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
-                    className="flex-grow bg-background/50"
+                    className="flex-grow bg-background/50 border-border/30"
                   />
                   <Button className="whitespace-nowrap">
                     Subscribe
@@ -424,7 +472,7 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-muted/50 py-12">
+      <footer className="bg-muted/30 py-12 border-t border-border/30">
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div>
@@ -464,7 +512,7 @@ const Home = () => {
               </ul>
             </div>
           </div>
-          <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-border/30 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-muted-foreground">© 2025 ServiPal. All rights reserved.</p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Twitter</a>

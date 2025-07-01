@@ -28,7 +28,7 @@ const Header = ({ title }: HeaderProps) => {
   };
 
   return (
-    <header className="border-b px-4 md:px-6 py-3 flex justify-between items-center bg-background sticky top-0 z-20">
+    <header className="border-b border-border/30 px-4 md:px-6 py-3 flex justify-between items-center bg-background sticky top-0 z-20">
       <div className="flex items-center">
         <h1 className="text-xl md:text-2xl font-semibold">{title || formatPathname(location.pathname)}</h1>
       </div>
@@ -83,13 +83,13 @@ const Header = ({ title }: HeaderProps) => {
           </SheetHeader>
           <div className="mt-6 space-y-4">
             {notifications.map(notification => (
-              <div key={notification.id} className="p-3 bg-muted/40 rounded-lg">
+              <div key={notification.id} className="p-3 bg-muted/40 rounded-lg border border-border/20">
                 <p className="text-sm font-medium">{notification.message}</p>
                 <p className="text-xs text-muted-foreground mt-1">{notification.time}</p>
               </div>
             ))}
             
-            <Button variant="outline" className="w-full mt-4">View all notifications</Button>
+            <Button variant="outline" className="w-full mt-4 border-border/30">View all notifications</Button>
           </div>
         </SheetContent>
       </Sheet>

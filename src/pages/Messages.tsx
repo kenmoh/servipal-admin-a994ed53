@@ -140,24 +140,24 @@ const Messages = () => {
   return (
     <Layout title="Messaging">
       <div className="h-[calc(100vh-160px)] flex">
-        <Card className="w-96 flex-shrink-0 border-r rounded-r-none h-full overflow-hidden">
+        <Card className="w-96 flex-shrink-0 border-r border-border/30 rounded-r-none h-full overflow-hidden">
           <CardHeader className="px-4 py-2 space-y-2">
             <CardTitle>Conversations</CardTitle>
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search conversations..."
-                className="pl-8"
+                className="pl-8 border-border/30"
               />
             </div>
           </CardHeader>
           <CardContent className="p-0 overflow-y-auto h-[calc(100%-80px)]">
-            <div className="divide-y">
+            <div className="divide-y divide-border/20">
               {conversations.map((conversation) => (
                 <div
                   key={conversation.id}
-                  className={`p-4 cursor-pointer hover:bg-gray-50 ${
-                    selectedConversation?.id === conversation.id ? 'bg-gray-50' : ''
+                  className={`p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 ${
+                    selectedConversation?.id === conversation.id ? 'bg-gray-50 dark:bg-gray-800/50' : ''
                   }`}
                   onClick={() => setSelectedConversation(conversation)}
                 >
@@ -180,7 +180,7 @@ const Messages = () => {
         <Card className="flex-grow h-full rounded-l-none border-l-0">
           {selectedConversation ? (
             <>
-              <CardHeader className="border-b px-6 py-4">
+              <CardHeader className="border-b border-border/30 px-6 py-4">
                 <div className="flex justify-between items-center">
                   <div>
                     <CardTitle>{selectedConversation.user}</CardTitle>
@@ -188,7 +188,7 @@ const Messages = () => {
                       {getUserTypeLabel(selectedConversation.userType)}
                     </CardDescription>
                   </div>
-                  <Button variant="outline" size="sm">View Profile</Button>
+                  <Button variant="outline" size="sm" className="border-border/30">View Profile</Button>
                 </div>
               </CardHeader>
               <CardContent className="p-0 flex flex-col h-[calc(100%-140px)]">
@@ -199,10 +199,10 @@ const Messages = () => {
                       className={`flex ${message.sender === 'Support' ? 'justify-end' : 'justify-start'}`}
                     >
                       <div
-                        className={`max-w-[70%] rounded-lg p-3 ${
+                        className={`max-w-[70%] rounded-lg p-3 border border-border/20 ${
                           message.sender === 'Support'
                             ? 'bg-primary text-primary-foreground'
-                            : 'bg-gray-100'
+                            : 'bg-gray-100 dark:bg-gray-800'
                         }`}
                       >
                         <p className="text-sm">{message.content}</p>
@@ -211,8 +211,8 @@ const Messages = () => {
                     </div>
                   ))}
                 </div>
-                <div className="border-t p-4 flex gap-2">
-                  <Button variant="outline" size="icon">
+                <div className="border-t border-border/30 p-4 flex gap-2">
+                  <Button variant="outline" size="icon" className="border-border/30">
                     <Plus className="h-4 w-4" />
                   </Button>
                   <Input
@@ -220,7 +220,7 @@ const Messages = () => {
                     value={messageInput}
                     onChange={(e) => setMessageInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                    className="flex-grow"
+                    className="flex-grow border-border/30"
                   />
                   <Button onClick={handleSendMessage}>
                     <Send className="h-4 w-4 mr-2" />

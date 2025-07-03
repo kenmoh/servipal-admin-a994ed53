@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -60,16 +61,7 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col dark">
       {/* Header */}
-      <header style={{ 
-        position: 'sticky',
-        top: 0,
-        zIndex: 30,
-        width: '100%',
-        backgroundColor: 'rgba(248, 250, 252, 0.8)',
-        backdropFilter: 'blur(8px',
-        borderBottomWidth: '1px',
-        borderBottomColor: 'rgba(226, 232, 240, 0.5)'
-      }}>
+      <header className="sticky top-0 z-30 w-full bg-background/80 backdrop-blur-sm border-b border-border/50">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             <img 
@@ -77,15 +69,7 @@ const Home = () => {
               alt="ServiPal Logo" 
               className="h-10 w-10"
             />
-            <div style={{
-              fontWeight: 'bold',
-              fontSize: '1.5rem',
-              background: 'linear-gradient(135deg, rgb(30, 64, 175), rgb(255, 107, 53))',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              color: 'rgb(30, 64, 175)' // Fallback for older browsers
-            }}>
+            <div className="text-2xl font-bold gradient-text">
               ServiPal
             </div>
           </div>
@@ -123,36 +107,12 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(248, 250, 252, 1), rgba(30, 64, 175, 0.05))',
-          zIndex: -10
-        }}></div>
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          right: 0,
-          width: '50%',
-          aspectRatio: '1',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(30, 64, 175, 0.1), transparent)',
-          filter: 'blur(48px)',
-          zIndex: -10
-        }}></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/10 via-background to-brand-blue/5 -z-10"></div>
+        <div className="absolute top-1/2 right-0 w-1/2 aspect-square rounded-full bg-gradient-to-br from-brand-orange/20 via-brand-blue/10 to-transparent blur-3xl -z-10"></div>
         <div className="container mx-auto px-4 py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h1 style={{
-                fontWeight: 800,
-                fontSize: 'clamp(2rem, 5vw, 3.75rem)',
-                lineHeight: 1.1,
-                background: 'linear-gradient(135deg, rgb(30, 64, 175), rgb(255, 107, 53))',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                color: 'rgb(30, 64, 175)' // Fallback
-              }}>
+              <h1 className="text-4xl md:text-6xl font-extrabold leading-tight gradient-text">
                 Your All-In-One Service Platform
               </h1>
               <p className="text-xl text-muted-foreground">
@@ -160,18 +120,12 @@ const Home = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <button onClick={() => scrollToSection('services')} className="group">
-                  <Button size="lg" className="w-full group" style={{
-                    background: 'linear-gradient(135deg, rgb(30, 64, 175), rgb(30, 64, 175))',
-                    color: 'white'
-                  }}>
+                  <Button size="lg" className="w-full group bg-gradient-to-r from-brand-blue to-brand-blue hover:from-brand-blue/90 hover:to-brand-blue/90">
                     Explore Services <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </button>
                 <button onClick={() => scrollToSection('how-it-works')}>
-                  <Button size="lg" variant="outline" className="w-full" style={{
-                    borderColor: 'rgba(30, 64, 175, 0.2)',
-                    backgroundColor: 'rgba(255, 107, 53, 0.1)'
-                  }}>
+                  <Button size="lg" variant="outline" className="w-full border-brand-blue/20 bg-brand-orange/10 hover:bg-brand-orange/20">
                     Learn More
                   </Button>
                 </button>
@@ -185,163 +139,75 @@ const Home = () => {
               </button>
             </div>
             <div className="relative">
-              <div style={{
-                position: 'absolute',
-                inset: '-2px',
-                borderRadius: '0.75rem',
-                background: 'linear-gradient(135deg, rgb(30, 64, 175), rgb(255, 107, 53))',
-                opacity: 0.7,
-                filter: 'blur(16px)'
-              }}></div>
-              <div style={{
-                position: 'relative',
-                height: '400px',
-                borderRadius: '0.75rem',
-                overflow: 'hidden',
-                background: 'linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(248, 250, 252, 0.5))',
-                boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25)',
-                border: '1px solid rgba(226, 232, 240, 0.2)'
-              }}>
+              <div className="absolute -inset-2 bg-gradient-to-r from-brand-blue to-brand-orange opacity-70 blur-2xl rounded-xl"></div>
+              <div className="relative h-96 md:h-[400px] rounded-xl overflow-hidden bg-gradient-to-br from-background/80 to-background/50 backdrop-blur-sm shadow-2xl border border-border/20">
                 {/* Browser bar */}
-                <div style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  left: '1rem',
-                  right: '1rem',
-                  height: '2rem',
-                  borderRadius: '0.375rem',
-                  backgroundColor: 'rgba(248, 250, 252, 0.8)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  paddingLeft: '1rem',
-                  gap: '0.5rem',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
-                }}>
-                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#ef4444' }}></div>
-                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#eab308' }}></div>
-                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#22c55e' }}></div>
-                  <div style={{ marginLeft: '0.5rem', fontSize: '0.75rem', color: 'rgb(100, 116, 139)' }}>ServiPal</div>
+                <div className="absolute top-4 left-4 right-4 h-8 bg-background/80 rounded-md flex items-center px-4 gap-2 shadow-sm border border-border/30">
+                  <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                  <div className="ml-2 text-xs text-muted-foreground">ServiPal</div>
                 </div>
                 
                 {/* App content */}
-                <div style={{
-                  position: 'absolute',
-                  top: '4rem',
-                  left: '1rem',
-                  right: '1rem',
-                  bottom: '1rem',
-                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                  backdropFilter: 'blur(8px)',
-                  borderRadius: '0.375rem',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                  padding: '1rem',
-                  border: '1px solid rgba(226, 232, 240, 0.3)'
-                }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%' }}>
+                <div className="absolute top-16 left-4 right-4 bottom-4 bg-background/80 backdrop-blur-sm rounded-md shadow-sm border border-border/30 p-4">
+                  <div className="flex flex-col gap-4 h-full">
                     {/* Header with connecting people */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '0.75rem',
-                      background: 'linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(255, 107, 53, 0.1))',
-                      borderRadius: '0.5rem',
-                      border: '1px solid rgba(226, 232, 240, 0.2)'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div className="flex items-center justify-between p-3 bg-gradient-to-r from-brand-blue/10 to-brand-orange/10 rounded-lg border border-border/20">
+                      <div className="flex items-center gap-2">
                         <Users className="h-5 w-5 text-primary" />
-                        <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Connecting People</span>
+                        <span className="text-sm font-medium">Connecting People</span>
                       </div>
-                      <div style={{ display: 'flex', marginLeft: '-0.5rem' }}>
-                        <div style={{
-                          width: '1.5rem',
-                          height: '1.5rem',
-                          borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #60a5fa, #2563eb)',
-                          border: '2px solid white'
-                        }}></div>
-                        <div style={{
-                          width: '1.5rem',
-                          height: '1.5rem',
-                          borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #4ade80, #16a34a)',
-                          border: '2px solid white',
-                          marginLeft: '-0.5rem'
-                        }}></div>
-                        <div style={{
-                          width: '1.5rem',
-                          height: '1.5rem',
-                          borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #a78bfa, #7c3aed)',
-                          border: '2px solid white',
-                          marginLeft: '-0.5rem'
-                        }}></div>
+                      <div className="flex -space-x-2">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-background"></div>
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-background"></div>
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-background"></div>
                       </div>
                     </div>
                     
                     {/* Service connections */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem', flex: 1 }}>
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1))',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid rgba(59, 130, 246, 0.2)'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <div className="grid grid-cols-2 gap-3 flex-1">
+                      <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 p-3 rounded-lg border border-blue-500/20">
+                        <div className="flex items-center gap-2 mb-2">
                           <Package className="h-4 w-4 text-blue-600" />
-                          <span style={{ fontSize: '0.75rem', fontWeight: 500 }}>Delivery</span>
+                          <span className="text-xs font-medium">Delivery</span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <div className="flex items-center gap-1">
                           <Clock className="h-3 w-3 text-blue-500" />
-                          <span style={{ fontSize: '0.75rem', color: 'rgb(100, 116, 139)' }}>15 min</span>
+                          <span className="text-xs text-muted-foreground">15 min</span>
                         </div>
                       </div>
                       
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(251, 146, 60, 0.1))',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid rgba(249, 115, 22, 0.2)'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                      <div className="bg-gradient-to-br from-orange-500/10 to-orange-500/5 p-3 rounded-lg border border-orange-500/20">
+                        <div className="flex items-center gap-2 mb-2">
                           <Utensils className="h-4 w-4 text-orange-600" />
-                          <span style={{ fontSize: '0.75rem', fontWeight: 500 }}>Food</span>
+                          <span className="text-xs font-medium">Food</span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <div className="flex items-center gap-1">
                           <Star className="h-3 w-3 text-orange-500 fill-current" />
-                          <span style={{ fontSize: '0.75rem', color: 'rgb(100, 116, 139)' }}>4.9</span>
+                          <span className="text-xs text-muted-foreground">4.9</span>
                         </div>
                       </div>
                       
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(74, 222, 128, 0.1))',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid rgba(34, 197, 94, 0.2)'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                      <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 p-3 rounded-lg border border-green-500/20">
+                        <div className="flex items-center gap-2 mb-2">
                           <WashingMachine className="h-4 w-4 text-green-600" />
-                          <span style={{ fontSize: '0.75rem', fontWeight: 500 }}>Laundry</span>
+                          <span className="text-xs font-medium">Laundry</span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <div className="flex items-center gap-1">
                           <MessageCircle className="h-3 w-3 text-green-500" />
-                          <span style={{ fontSize: '0.75rem', color: 'rgb(100, 116, 139)' }}>Chat</span>
+                          <span className="text-xs text-muted-foreground">Chat</span>
                         </div>
                       </div>
                       
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(168, 85, 247, 0.1))',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid rgba(147, 51, 234, 0.2)'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                      <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 p-3 rounded-lg border border-purple-500/20">
+                        <div className="flex items-center gap-2 mb-2">
                           <Handshake className="h-4 w-4 text-purple-600" />
-                          <span style={{ fontSize: '0.75rem', fontWeight: 500 }}>P2P</span>
+                          <span className="text-xs font-medium">P2P</span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <div className="flex items-center gap-1">
                           <Users className="h-3 w-3 text-purple-500" />
-                          <span style={{ fontSize: '0.75rem', color: 'rgb(100, 116, 139)' }}>Active</span>
+                          <span className="text-xs text-muted-foreground">Active</span>
                         </div>
                       </div>
                     </div>
@@ -354,23 +220,10 @@ const Home = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" style={{
-        paddingTop: '5rem',
-        paddingBottom: '5rem',
-        background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.05), rgba(30, 64, 175, 0.05))'
-      }}>
+      <section id="services" className="py-20 bg-gradient-to-br from-brand-orange/5 to-brand-blue/5">
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 style={{
-              fontSize: '1.875rem',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              background: 'linear-gradient(135deg, rgb(30, 64, 175), rgb(255, 107, 53))',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              color: 'rgb(30, 64, 175)' // Fallback
-            }}>Our Services</h2>
+            <h2 className="text-3xl font-bold mb-4 gradient-text">Our Services</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               We bring together essential services on one powerful platform
             </p>
@@ -378,34 +231,10 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <div key={index} style={{
-                position: 'relative',
-                backgroundColor: 'rgba(248, 250, 252, 0.6)',
-                backdropFilter: 'blur(8px)',
-                borderRadius: '0.5rem',
-                padding: '1.5rem',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                transition: 'all 0.3s ease',
-                border: '1px solid rgba(226, 232, 240, 0.3)'
-              }} className="group">
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: '0.5rem',
-                  background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.05), transparent, rgba(30, 64, 175, 0.05))',
-                  opacity: 0,
-                  transition: 'opacity 0.3s ease'
-                }} className="group-hover:opacity-100"></div>
-                <div style={{ position: 'relative' }}>
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(30, 64, 175, 0.1))',
-                    padding: '0.75rem',
-                    borderRadius: '50%',
-                    width: 'fit-content',
-                    marginBottom: '1rem',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                    border: '1px solid rgba(226, 232, 240, 0.2)'
-                  }}>
+              <div key={index} className="group relative glass-card p-6 hover-card">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-blue/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative">
+                  <div className="bg-gradient-to-br from-brand-orange/10 to-brand-blue/10 p-3 rounded-full w-fit mb-4 shadow-sm border border-border/20">
                     {service.icon}
                   </div>
                   <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
@@ -421,7 +250,7 @@ const Home = () => {
       <section id="how-it-works" className="py-20">
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-orange to-brand-blue">How It Works</h2>
+            <h2 className="text-3xl font-bold mb-4 gradient-text">How It Works</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Simple, fast and efficient - here's how our platform brings services to your doorstep
             </p>
@@ -555,7 +384,7 @@ const Home = () => {
       <section id="testimonials" className="py-20 bg-gradient-to-br from-brand-blue/5 to-brand-orange/5">
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-blue to-brand-orange">What Our Customers Say</h2>
+            <h2 className="text-3xl font-bold mb-4 gradient-text">What Our Customers Say</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Real experiences from people who use our services every day
             </p>
@@ -579,7 +408,7 @@ const Home = () => {
                 role: "Business Owner"
               }
             ].map((testimonial, idx) => (
-              <div key={idx} className="relative bg-background/60 backdrop-blur-sm rounded-lg p-8 shadow-lg group border border-border/30">
+              <div key={idx} className="relative glass-card p-8 shadow-lg group">
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative">
                   <div className="text-4xl font-serif text-primary">"</div>
@@ -603,7 +432,7 @@ const Home = () => {
         
         <div className="max-w-[75vw] mx-auto px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-brand-blue to-brand-orange">Ready to Simplify Your Life?</h2>
+            <h2 className="text-3xl font-bold mb-6 gradient-text">Ready to Simplify Your Life?</h2>
             <p className="text-xl text-muted-foreground mb-8">
               Join thousands of users who are making their lives easier with our multi-service platform.
             </p>
@@ -620,7 +449,7 @@ const Home = () => {
               </Button>
             </div>
             
-            <div className="mt-12 p-8 bg-background/60 backdrop-blur-sm rounded-xl shadow-lg relative group border border-border/30">
+            <div className="mt-12 p-8 glass-card rounded-xl shadow-lg relative group">
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <div className="relative">
                 <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
@@ -701,3 +530,4 @@ const Home = () => {
 };
 
 export default Home;
+

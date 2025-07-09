@@ -8,101 +8,106 @@
 
 @layer base {
   :root {
-    --background: 248 250 252;
-    --foreground: 15 23 42;
-
-    --card: 255 255 255;
-    --card-foreground: 15 23 42;
-
-    --popover: 255 255 255;
-    --popover-foreground: 15 23 42;
-
-    /* Updated primary to match logo's blue */
-    --primary: 30 64 175; /* Brand blue */
-    --primary-foreground: 255 255 255;
-
-    --secondary: 241 245 249;
-    --secondary-foreground: 71 85 105;
-
-    --muted: 248 250 252;
-    --muted-foreground: 100 116 139;
-
-    --accent: 255 237 213; /* Light orange accent */
-    --accent-foreground: 30 64 175; /* Brand blue text */
-
-    --destructive: 239 68 68;
-    --destructive-foreground: 255 255 255;
-
-    /* Subtle borders */
-    --border: 226, 232, 240, 0.4;
-    --input: 255 255 255;
-    --ring: 30 64 175; /* Brand blue */
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 255 255 255;
-    --sidebar-foreground: 15 23 42;
-    --sidebar-primary: 30 64 175; /* Brand blue */
-    --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 248 250 252;
-    --sidebar-accent-foreground: 15 23 42;
-    --sidebar-border: 226, 232, 240, 0.3;
-    --sidebar-ring: 30 64 175; /* Brand blue */
+    --radius: 0.65rem;
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.141 0.005 285.823);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.141 0.005 285.823);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.141 0.005 285.823);
+    --primary: oklch(0.795 0.184 86.047);
+    --primary-foreground: oklch(0.421 0.095 57.708);
+    --secondary: oklch(0.967 0.001 286.375);
+    --secondary-foreground: oklch(0.21 0.006 285.885);
+    --muted: oklch(0.967 0.001 286.375);
+    --muted-foreground: oklch(0.552 0.016 285.938);
+    --accent: oklch(0.967 0.001 286.375);
+    --accent-foreground: oklch(0.21 0.006 285.885);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.92 0.004 286.32);
+    --input: oklch(0.92 0.004 286.32);
+    --ring: oklch(0.795 0.184 86.047);
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.141 0.005 285.823);
+    --sidebar-primary: oklch(0.795 0.184 86.047);
+    --sidebar-primary-foreground: oklch(0.421 0.095 57.708);
+    --sidebar-accent: oklch(0.967 0.001 286.375);
+    --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+    --sidebar-border: oklch(0.92 0.004 286.32);
+    --sidebar-ring: oklch(0.795 0.184 86.047);
   }
 
   .dark {
-    --background: 15 23 42;
-    --foreground: 248 250 252;
-
-    --card: 30 41 59;
-    --card-foreground: 248 250 252;
-
-    --popover: 30 41 59;
-    --popover-foreground: 248 250 252;
-
-    /* Enhanced primary with logo-inspired orange */
-    --primary: 255 107 53; /* Brand orange for dark mode */
-    --primary-foreground: 15 23 42;
-
-    --secondary: 51 65 85;
-    --secondary-foreground: 248 250 252;
-
-    --muted: 51 65 85;
-    --muted-foreground: 148 163 184;
-
-    --accent: 51 65 85;
-    --accent-foreground: 248 250 252;
-
-    --destructive: 239 68 68;
-    --destructive-foreground: 248 250 252;
-
-    /* Subtle borders for dark mode */
-    --border: 51, 65, 85, 0.5;
-    --input: 51 65 85;
-    --ring: 255 107 53; /* Brand orange */
-
-    --sidebar-background: 30 41 59;
-    --sidebar-foreground: 248 250 252;
-    --sidebar-primary: 255 107 53; /* Brand orange */
-    --sidebar-primary-foreground: 15 23 42;
-    --sidebar-accent: 51 65 85;
-    --sidebar-accent-foreground: 248 250 252;
-    --sidebar-border: 51, 65, 85, 0.4;
-    --sidebar-ring: 255 107 53; /* Brand orange */
+    --background: oklch(0.141 0.005 285.823);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.21 0.006 285.885);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.21 0.006 285.885);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.795 0.184 86.047);
+    --primary-foreground: oklch(0.421 0.095 57.708);
+    --secondary: oklch(0.274 0.006 286.033);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.274 0.006 286.033);
+    --muted-foreground: oklch(0.705 0.015 286.067);
+    --accent: oklch(0.274 0.006 286.033);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.554 0.135 66.442);
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+    --sidebar: oklch(0.21 0.006 285.885);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.795 0.184 86.047);
+    --sidebar-primary-foreground: oklch(0.421 0.095 57.708);
+    --sidebar-accent: oklch(0.274 0.006 286.033);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.554 0.135 66.442);
   }
 }
 
 @layer base {
   * {
-    border-color: rgba(226, 232, 240, 0.4);
+    @apply border-border;
   }
 
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+}
+
+/* Modern Dashboard Layout */
+.modern-dashboard {
+  @apply bg-gradient-to-br from-background via-background to-muted/20;
+  min-height: 100vh;
+  position: relative;
+}
+
+.modern-dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, var(--primary) / 0.05 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, var(--chart-1) / 0.05 0%, transparent 45%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Dashboard specific styles */
@@ -124,105 +129,93 @@
   }
 }
 
-/* Modern admin dashboard background */
-.dashboard-background {
-  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
-  min-height: 100vh;
+/* Modern Dashboard Styling */
+.modern-card {
+  @apply bg-card/80 border border-border/50 rounded-lg shadow-sm;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  overflow: hidden;
 }
 
-.dashboard-background::before {
+.modern-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 25% 25%, hsl(var(--primary) / 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, hsl(var(--accent) / 0.05) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary) / 0.3, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* Enhanced card styling */
-.dashboard-card {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border) / 0.5);
+.modern-card:hover::before {
+  opacity: 1;
+}
+
+.modern-card:hover {
+  @apply shadow-lg border-border/70;
+  transform: translateY(-2px);
+}
+
+.modern-table {
+  @apply w-full border-collapse;
+  border-spacing: 0;
+}
+
+.modern-table th {
+  @apply bg-muted/40 text-muted-foreground font-medium text-sm py-3 px-4 text-left border-b border-border/30;
   backdrop-filter: blur(8px);
-  box-shadow: 
-    0 1px 3px 0 rgba(0, 0, 0, 0.1), 
-    0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease-in-out;
+}
+
+.modern-table td {
+  @apply py-3 px-4 border-b border-border/20 text-sm;
+  transition: background-color 0.2s ease;
+}
+
+.modern-table tr:hover td {
+  @apply bg-muted/20;
+}
+
+.modern-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Global card styling for all pages */
+.card, [data-testid="card"],
+.rounded-lg.border.bg-card.text-card-foreground.shadow-sm {
+  @apply bg-card/80 border border-border/50 rounded-lg shadow-sm;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  z-index: 1;
+  overflow: hidden;
 }
 
-.dashboard-card:hover {
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transform: translateY(-1px);
+.card::before, [data-testid="card"]::before,
+.rounded-lg.border.bg-card.text-card-foreground.shadow-sm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary) / 0.3, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.dark .dashboard-card {
-  background: hsl(var(--card) / 0.95);
-  border-color: hsl(var(--border) / 0.3);
-  box-shadow: 
-    0 1px 3px 0 rgba(0, 0, 0, 0.3), 
-    0 1px 2px 0 rgba(0, 0, 0, 0.2);
+.card:hover::before, [data-testid="card"]:hover::before,
+.rounded-lg.border.bg-card.text-card-foreground.shadow-sm:hover::before {
+  opacity: 1;
 }
 
-.dark .dashboard-card:hover {
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.4), 
-    0 2px 4px -1px rgba(0, 0, 0, 0.3);
-}
-
-/* Apply dashboard styling to all cards globally */
-main [data-testid="card"], 
-main .rounded-lg.border.bg-card.text-card-foreground.shadow-sm,
-.dashboard-background [data-testid="card"],
-.dashboard-background .rounded-lg.border.bg-card.text-card-foreground.shadow-sm {
-  background: hsl(var(--card)) !important;
-  border: 1px solid hsl(var(--border) / 0.5) !important;
-  backdrop-filter: blur(8px);
-  box-shadow: 
-    0 1px 3px 0 rgba(0, 0, 0, 0.1), 
-    0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
-  transition: all 0.2s ease-in-out;
-  position: relative;
-  z-index: 1;
-}
-
-main [data-testid="card"]:hover,
-main .rounded-lg.border.bg-card.text-card-foreground.shadow-sm:hover,
-.dashboard-background [data-testid="card"]:hover,
-.dashboard-background .rounded-lg.border.bg-card.text-card-foreground.shadow-sm:hover {
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-    0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-  transform: translateY(-1px);
-}
-
-.dark main [data-testid="card"],
-.dark main .rounded-lg.border.bg-card.text-card-foreground.shadow-sm,
-.dark .dashboard-background [data-testid="card"],
-.dark .dashboard-background .rounded-lg.border.bg-card.text-card-foreground.shadow-sm {
-  background: hsl(var(--card) / 0.95) !important;
-  border-color: hsl(var(--border) / 0.3) !important;
-  box-shadow: 
-    0 1px 3px 0 rgba(0, 0, 0, 0.3), 
-    0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
-}
-
-.dark main [data-testid="card"]:hover,
-.dark main .rounded-lg.border.bg-card.text-card-foreground.shadow-sm:hover,
-.dark .dashboard-background [data-testid="card"]:hover,
-.dark .dashboard-background .rounded-lg.border.bg-card.text-card-foreground.shadow-sm:hover {
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.4), 
-    0 2px 4px -1px rgba(0, 0, 0, 0.3) !important;
+.card:hover, [data-testid="card"]:hover,
+.rounded-lg.border.bg-card.text-card-foreground.shadow-sm:hover {
+  @apply shadow-lg border-border/70;
+  transform: translateY(-2px);
 }
 
 /* Custom scrollbar */
@@ -232,31 +225,29 @@ main .rounded-lg.border.bg-card.text-card-foreground.shadow-sm:hover,
 }
 
 ::-webkit-scrollbar-track {
-  background-color: hsl(var(--muted));
+  @apply bg-muted/30;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(100, 116, 139, 0.4);
-  border-radius: 10px;
+  @apply bg-muted-foreground/30 rounded-full;
   transition: background-color 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(100, 116, 139, 0.6);
+  @apply bg-muted-foreground/50;
 }
 
-/* Table styles with subtle borders */
-.compact-table th {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  border-bottom: 1px solid rgba(var(--border));
+/* Modern Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
-.compact-table td {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.2);
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 /* Animation classes */

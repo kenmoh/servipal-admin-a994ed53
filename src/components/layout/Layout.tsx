@@ -105,7 +105,7 @@ const Layout = ({ children, title }: LayoutProps) => {
         
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header title={title} />
-          <main className="flex-1 overflow-y-auto dashboard-background">
+          <main className="flex-1 overflow-y-auto modern-dashboard">
             <div className="p-4 md:p-6 relative z-10">
               {children}
             </div>

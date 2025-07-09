@@ -64,11 +64,11 @@ const ChartCard = ({ title, type, data, dataKey = 'value', xAxisKey = 'name', co
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
+    <Card className="dashboard-card">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-lg font-semibold tracking-tight">{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         {renderChart()}
       </CardContent>
     </Card>
